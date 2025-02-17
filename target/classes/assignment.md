@@ -1,10 +1,49 @@
 # Functionality
 
+> [!NOTE]
+> - default image for user and dish -> metadata should be saved in db
+> - BASE_URL
+```java
+ @RequestMapping(Utils.BASE_URL+"/group")
+```
+> - Pagination data
+```java
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import org.springframework.data.domain.Page;
+
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class PaginationData {
+    private int page;
+    private int numberOfElements;
+    private int totalPages;
+    private long totalElements;
+
+    public static PaginationData of(Page<?> pagination) {
+        return PaginationData.builder()
+                .page(pagination.getNumber())
+                .totalElements(pagination.getTotalElements())
+                .totalPages(pagination.getTotalPages())
+                .numberOfElements(pagination.getNumberOfElements())
+                .build();
+    }
+}
+```
+
 ## User
- - [ ] registration *with email verification*
+ - [ ] registration *Two-step email verification with OTP*
  - [ ] log in
  - [ ] log out
  - [ ] change credentials *email, password etc*
+
+## System
+ - [ ] implement logging
 
 # Entity
 
@@ -15,15 +54,33 @@
  - email
  - phoneNumber
  - password
- - photo
+ - visible
+ - createdAt
  - status *active, block*
+ - photo
  - refreshTokens `bidirectional`
  - roles `bidirectional`
+ - orders `bidirectional`
 
 ## Role
  - id
+ - visible
  - roleType *customer, employee, manager, admin*
+ - createdAt
  - users `bidirectional`
+
+## Attachment
+ - id
+ - originalName
+ - size
+ - contentType
+ - extension
+ - visible
+ - filePath
+ - content
+ - compressedAttachment
+ - createdAt
+ - storageType *database, filesystem*
 
 ## RefreshToken
  - id
@@ -32,31 +89,42 @@
  - createdAt
  - user
 
+> [!INFO]
+> done till here
+
+> [!BUG]
+> reconsider relationship of
+> Dish -> Order -> OrderItem
+
 ## Dish
  - id
  - name
  - price
- - image
- - isAvailable
  - quantityAvailable
- - category *hot, cold, soup, grill, appetizer, dessert*
- - orders `bidirectional`
-
+ - visible
+ - createdAt
+ - dishCategory *hot, cold, soup, grill, appetizer, dessert*
+ - image
+ - orders `bidirectional` [-]
+ 
 ## Order
  - id
+ - number
  - discount
  - totalPrice
- - customer
+ - visible
  - createdAt
- - status *pending, preparing, completed, canceled*
+ - orderStatus *pending, preparing, completed, canceled*
+ - customer
  - orderItems `bidirectional`
 
 ## OrderItem
  - id
- - order
- - dish
  - quantity
  - price
  - note
- - type *dineIn, toGo, Delivery*
+ - createdAt
+ - orederType *dineIn, toGo, Delivery*
+ - dish [-]
+ - order
 
