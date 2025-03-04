@@ -1,5 +1,7 @@
 package uz.akbar.resto.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,5 +48,5 @@ public class Dish extends AbsLongEntity {
 	private Attachment photo;
 
 	@OneToMany(mappedBy = "dish")
-	private OrderItem orderItems;
+	private Set<OrderItem> orderItems;
 }

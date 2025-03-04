@@ -1,1 +1,17 @@
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/RestoBackendApplication.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/Attachment.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/Dish.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/Order.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/OrderItem.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/RefreshToken.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/Role.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/User.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/template/AbsLongEntity.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/template/AbsUUIDEntity.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/DishCategory.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/GeneralStatus.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/OrderStatus.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/OrderType.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/RoleType.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/StorageType.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/repository/OrderRepo.java

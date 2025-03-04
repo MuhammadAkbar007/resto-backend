@@ -35,6 +35,8 @@ public class PaginationData {
     }
 }
 ```
+> - in orderService
+before saving, getNextOrderNumber from repo
 
 ## User
  - [ ] registration *Two-step email verification with OTP*
