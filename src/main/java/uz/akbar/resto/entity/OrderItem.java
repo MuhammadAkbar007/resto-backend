@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +36,11 @@ public class OrderItem extends AbsUUIDEntity {
 	@Enumerated(EnumType.STRING)
 	private OrderType orderType;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
+	@JoinColumn(nullable = false)
 	private Order order;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(nullable = false)
+	private Dish dish;
 }

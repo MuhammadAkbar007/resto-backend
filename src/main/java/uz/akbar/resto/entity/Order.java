@@ -52,6 +52,6 @@ public class Order extends AbsUUIDEntity {
 	@JoinColumn(nullable = false)
 	private User customer;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
 	private List<OrderItem> orderItems;
 }

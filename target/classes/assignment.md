@@ -89,13 +89,6 @@ public class PaginationData {
  - createdAt
  - user
 
-> [!INFO]
-> done till here
-
-> [!BUG]
-> reconsider relationship of
-> Dish -> Order -> OrderItem
-
 ## Dish
  - id
  - name

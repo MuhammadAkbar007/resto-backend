@@ -25,13 +25,13 @@ import java.time.Instant;
 @Entity
 public class RefreshToken extends AbsUUIDEntity {
 
-    @Column(unique = true, nullable = false)
-    private String token;
+	@Column(unique = true, nullable = false)
+	private String token;
 
-    @Column(nullable = false)
-    private Instant expiryDate;
+	@Column(nullable = false)
+	private Instant expiryDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, updatable = false)
-    private User user;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false, updatable = false)
+	private User user;
 }

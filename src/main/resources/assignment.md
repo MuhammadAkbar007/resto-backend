@@ -89,13 +89,6 @@ public class PaginationData {
  - createdAt
  - user
 
-> [!INFO]
-> done till here
-
-> [!BUG]
-> reconsider relationship of
-> Dish -> Order -> OrderItem
-
 ## Dish
  - id
  - name
@@ -105,7 +98,7 @@ public class PaginationData {
  - createdAt
  - dishCategory *hot, cold, soup, grill, appetizer, dessert*
  - image
- - orders `bidirectional` [-]
+ - orders `bidirectional`
  
 ## Order
  - id
@@ -125,6 +118,6 @@ public class PaginationData {
  - note
  - createdAt
  - orederType *dineIn, toGo, Delivery*
- - dish [-]
+ - dish
  - order
 
