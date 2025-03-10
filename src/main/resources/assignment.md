@@ -38,14 +38,15 @@ public class PaginationData {
 > - in orderService
 before saving, getNextOrderNumber from repo
 
+## System
+ - [ ] implement logging
+
 ## User
  - [ ] registration *Two-step email verification with OTP*
+ - [ ] admin seeder in dataInitializer
  - [ ] log in
  - [ ] log out
  - [ ] change credentials *email, password etc*
-
-## System
- - [ ] implement logging
 
 # Entity
 

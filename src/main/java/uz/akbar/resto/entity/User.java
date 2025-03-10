@@ -35,41 +35,36 @@ import java.util.Set;
 @Entity(name = "users")
 public class User extends AbsUUIDEntity {
 
-    @Column(nullable = false)
-    private String firstName;
+	@Column(nullable = false)
+	private String firstName;
 
-    private String lastName;
+	private String lastName;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+	@Column(nullable = false, unique = true)
+	private String email;
 
-    @Column(nullable = false, unique = true)
-    private String phoneNumber;
+	@Column(nullable = false, unique = true)
+	private String phoneNumber;
 
-    @Column(nullable = false)
-    private String password;
+	@Column(nullable = false)
+	private String password;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private GeneralStatus status;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private GeneralStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Attachment photo;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Attachment photo;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<RefreshToken> refreshTokens = new HashSet<>();
+	@Builder.Default
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<RefreshToken> refreshTokens = new HashSet<>();
 
-    @ManyToMany(
-            fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Role> roles;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private Set<Role> roles;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "customer")
-    private Set<Order> orders = new HashSet<>();
+	@Builder.Default
+	@OneToMany(mappedBy = "customer")
+	private Set<Order> orders = new HashSet<>();
 }

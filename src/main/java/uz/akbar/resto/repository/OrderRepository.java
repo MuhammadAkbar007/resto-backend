@@ -10,7 +10,7 @@ import uz.akbar.resto.entity.Order;
 /**
  * OrderRepo
  */
-public interface OrderRepo extends JpaRepository<Order, UUID> {
+public interface OrderRepository extends JpaRepository<Order, UUID> {
 
 	@Query("select coalesce(max(o.number), 0) + 1 from orders o")
 	Long getNextOrderNumber();
