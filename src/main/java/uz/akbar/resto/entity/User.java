@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.experimental.SuperBuilder;
 import uz.akbar.resto.entity.template.AbsUUIDEntity;
 import uz.akbar.resto.enums.GeneralStatus;
 
@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /** UserEntity */
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

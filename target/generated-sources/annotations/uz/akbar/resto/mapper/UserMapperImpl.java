@@ -14,8 +14,8 @@ import uz.akbar.resto.payload.response.UserDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-03-10T02:06:01+0500",
-    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 23.0.1 (Oracle Corporation)"
+    date = "2025-03-10T19:52:44+0500",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -34,27 +34,14 @@ public class UserMapperImpl implements UserMapper {
         UserDto.UserDtoBuilder userDto = UserDto.builder();
 
         userDto.photoId( attachmentToId( user.getPhoto() ) );
-        userDto.firstName( user.getFirstName() );
         userDto.id( user.getId() );
+        userDto.firstName( user.getFirstName() );
         userDto.lastName( user.getLastName() );
-        userDto.orders( orderSetToOrderDtoSet( user.getOrders() ) );
-        userDto.roles( roleSetToRoleDtoSet( user.getRoles() ) );
         userDto.status( user.getStatus() );
+        userDto.roles( roleSetToRoleDtoSet( user.getRoles() ) );
+        userDto.orders( orderSetToOrderDtoSet( user.getOrders() ) );
 
         return userDto.build();
-    }
-
-    protected Set<OrderDto> orderSetToOrderDtoSet(Set<Order> set) {
-        if ( set == null ) {
-            return null;
-        }
-
-        Set<OrderDto> set1 = new LinkedHashSet<OrderDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
-        for ( Order order : set ) {
-            set1.add( orderMapper.toDto( order ) );
-        }
-
-        return set1;
     }
 
     protected Set<RoleDto> roleSetToRoleDtoSet(Set<Role> set) {
@@ -65,6 +52,19 @@ public class UserMapperImpl implements UserMapper {
         Set<RoleDto> set1 = new LinkedHashSet<RoleDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
         for ( Role role : set ) {
             set1.add( roleMapper.toDto( role ) );
+        }
+
+        return set1;
+    }
+
+    protected Set<OrderDto> orderSetToOrderDtoSet(Set<Order> set) {
+        if ( set == null ) {
+            return null;
+        }
+
+        Set<OrderDto> set1 = new LinkedHashSet<OrderDto>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
+        for ( Order order : set ) {
+            set1.add( orderMapper.toDto( order ) );
         }
 
         return set1;

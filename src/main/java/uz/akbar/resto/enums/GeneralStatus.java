@@ -2,6 +2,7 @@ package uz.akbar.resto.enums;
 
 /** GeneralStatus */
 public enum GeneralStatus {
-    ACTIVE,
-    BLOCK
+	IN_REGISTRATION,
+	ACTIVE,
+	BLOCK
 }
