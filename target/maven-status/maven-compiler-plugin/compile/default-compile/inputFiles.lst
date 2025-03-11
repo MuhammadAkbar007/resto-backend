@@ -1,4 +1,5 @@
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/RestoBackendApplication.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/config/DataInitializer.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/config/GlobalExceptionHandler.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/controller/AuthController.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/Attachment.java
@@ -41,5 +42,10 @@
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/security/jwt/JwtAuthenticationFilter.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/security/jwt/JwtProvider.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/security/jwt/JwtProviderDynamicVersion.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/service/AttachmentService.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/service/AuthService.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/service/EmailService.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/service/impl/AttachmentServiceImpl.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/service/impl/AuthServiceImpl.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/service/impl/EmailServiceImpl.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/utils/Utils.java

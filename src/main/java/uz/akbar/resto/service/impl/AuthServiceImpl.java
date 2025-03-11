@@ -10,13 +10,17 @@ import uz.akbar.resto.entity.User;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.exception.AppBadRequestException;
+import uz.akbar.resto.mapper.UserMapper;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.request.LogInDto;
 import uz.akbar.resto.payload.request.RefreshTokenRequestDto;
 import uz.akbar.resto.payload.request.RegisterDto;
+import uz.akbar.resto.payload.response.UserDto;
 import uz.akbar.resto.repository.RoleRepository;
 import uz.akbar.resto.repository.UserRepository;
+import uz.akbar.resto.service.AttachmentService;
 import uz.akbar.resto.service.AuthService;
+import uz.akbar.resto.service.EmailService;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -30,10 +34,12 @@ public class AuthServiceImpl implements AuthService {
 	private final UserRepository repository;
 	private final RoleRepository roleRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
+	private final EmailService emailService;
+	private final UserMapper userMapper;
+	private final AttachmentService attachmentService;
 	// private final AuthenticationManager authenticationManager;
 	// private final JwtProvider jwtProvider;
 	// private final RefreshTokenRepository refreshTokenRepository;
-	// private final UserMapper userMapper;
 
 	@Override
 	@Transactional
@@ -63,7 +69,7 @@ public class AuthServiceImpl implements AuthService {
 				.phoneNumber(dto.getPhoneNumber())
 				.password(passwordEncoder.encode(dto.getPassword()))
 				.status(GeneralStatus.IN_REGISTRATION)
-				// TODO: set default profile picture photo
+				.photo(attachmentService.getDefaultProfileImage())
 				.roles(Set.of(roleCustomer))
 				.visible(true)
 				.createdAt(Instant.now())
@@ -71,15 +77,14 @@ public class AuthServiceImpl implements AuthService {
 
 		User saved = repository.save(user);
 
-		// TODO: emailService.sendRegistrationEmail
+		emailService.sendRegistrationEmail(saved.getEmail(), saved.getId());
 
-		// TODO: userMapper toDto
-		// UserDto userDto = userMapper.toDto(saved);
+		UserDto userDto = userMapper.toDto(saved);
 
 		return AppResponse.builder()
 				.success(true)
-				.message("User successfully registered")
-				// .data(userDto)
+				.message("Validation token has been sent to your email for registration")
+				.data(userDto)
 				.build();
 	}
 

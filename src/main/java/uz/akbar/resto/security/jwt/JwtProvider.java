@@ -6,13 +6,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.RefreshToken;
 import uz.akbar.resto.entity.User;
 import uz.akbar.resto.payload.jwt.JwtDto;
 import uz.akbar.resto.repository.RefreshTokenRepository;
 import uz.akbar.resto.security.CustomUserDetails;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,6 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 
 /** JwtProvider */
-@RequiredArgsConstructor
 @Component
 public class JwtProvider {
 	private final Key jwtSecretKey;
@@ -33,6 +32,7 @@ public class JwtProvider {
 	private final long jwtRefreshTokenExpiration;
 	private final int MAX_ACTIVE_TOKENS_PER_USER = 5;
 
+	@Autowired
 	private RefreshTokenRepository refreshTokenRepository;
 
 	public JwtProvider(

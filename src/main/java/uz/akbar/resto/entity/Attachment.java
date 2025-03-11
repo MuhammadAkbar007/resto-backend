@@ -10,12 +10,11 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.experimental.SuperBuilder;
 import uz.akbar.resto.entity.template.AbsUUIDEntity;
 import uz.akbar.resto.enums.StorageType;
 
@@ -24,7 +23,7 @@ import uz.akbar.resto.enums.StorageType;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Attachment extends AbsUUIDEntity {
@@ -41,14 +40,14 @@ public class Attachment extends AbsUUIDEntity {
 	@Column(nullable = false)
 	private String extension; /* pdf, png */
 
-	@Column(unique = true)
-	private String filePath; /* fs url (only for StorageType.FILESYSTEM) */
+	// @Column(unique = true)
+	private String filePath; /* fs url (only for StorageType.FILE_SYSTEM) */
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private StorageType storageType; /* DATABASE, FILESYSTEM */
 
-	@Lob
+	// @Lob
 	@Column(columnDefinition = "BYTEA")
 	private byte[] content; /* byte version in db table (only for StorageType.DATABASE) */
 

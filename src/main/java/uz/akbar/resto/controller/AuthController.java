@@ -14,11 +14,12 @@ import uz.akbar.resto.payload.request.LogInDto;
 import uz.akbar.resto.payload.request.RefreshTokenRequestDto;
 import uz.akbar.resto.payload.request.RegisterDto;
 import uz.akbar.resto.service.AuthService;
+import uz.akbar.resto.utils.Utils;
 
 /** AuthController */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping(Utils.BASE_URL + "/auth")
 public class AuthController {
 
 	private final AuthService service;

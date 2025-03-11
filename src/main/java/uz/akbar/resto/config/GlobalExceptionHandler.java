@@ -26,28 +26,14 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-	/* Old gpt version */
-	// @ExceptionHandler(MethodArgumentNotValidException.class)
-	// public ResponseEntity<Map<String, String>> handleValidationExceptions(
-	// MethodArgumentNotValidException ex) {
-	// Map<String, String> errors = new HashMap<>();
-	//
-	// ex.getBindingResult()
-	// .getAllErrors()
-	// .forEach(
-	// error -> {
-	// String fieldName = ((FieldError) error).getField();
-	// String errorMessage = error.getDefaultMessage();
-	// errors.put(fieldName, errorMessage);
-	// });
-	//
-	// return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-	// }
-
 	@ExceptionHandler(RuntimeException.class)
 	public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+		System.err.println("*** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ");
+		e.getMessage();
+		System.err.println("*** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ");
 		e.printStackTrace();
 		return ResponseEntity.internalServerError().body(e.getMessage());
+		// return ResponseEntity.internalServerError().body("internal server error");
 	}
 
 	@ExceptionHandler(AppBadRequestException.class)

@@ -2,10 +2,6 @@
 
 > [!NOTE]
 > - default image for user and dish -> metadata should be saved in db
-> - BASE_URL
-```java
- @RequestMapping(Utils.BASE_URL+"/group")
-```
 > - Pagination data
 ```java
 import lombok.AllArgsConstructor;

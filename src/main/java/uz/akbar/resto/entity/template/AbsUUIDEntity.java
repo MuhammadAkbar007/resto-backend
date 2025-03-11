@@ -31,5 +31,5 @@ public abstract class AbsUUIDEntity {
 	private Instant createdAt = Instant.now();
 
 	@Column(nullable = false)
-	private Boolean visible;
+	private Boolean visible = true;
 }
