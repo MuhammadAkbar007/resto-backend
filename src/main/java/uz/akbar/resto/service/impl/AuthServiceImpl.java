@@ -4,6 +4,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.tools.javac.jvm.Gen;
+
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
@@ -48,15 +50,14 @@ public class AuthServiceImpl implements AuthService {
 		Optional<User> optional = repository.findByEmailOrPhoneNumberAndVisibleTrue(dto.getEmail(),
 				dto.getPhoneNumber());
 
-		if (optional.isPresent()) {
-			User user = optional.get();
-
+		optional.ifPresent(user -> {
 			if (user.getStatus().equals(GeneralStatus.IN_REGISTRATION)) {
 				repository.delete(user);
+				repository.flush();
 			} else {
 				throw new AppBadRequestException("User already exists");
 			}
-		}
+		});
 
 		Role roleCustomer = roleRepository
 				.findByRoleType(RoleType.CUSTOMER)
