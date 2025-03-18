@@ -1,10 +1,12 @@
 package uz.akbar.resto.service.impl;
 
+import java.time.Instant;
+import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.sun.tools.javac.jvm.Gen;
 
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.Role;
@@ -15,6 +17,7 @@ import uz.akbar.resto.exception.AppBadRequestException;
 import uz.akbar.resto.mapper.UserMapper;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.request.LogInDto;
+import uz.akbar.resto.payload.request.OtpVerificationDto;
 import uz.akbar.resto.payload.request.RefreshTokenRequestDto;
 import uz.akbar.resto.payload.request.RegisterDto;
 import uz.akbar.resto.payload.response.UserDto;
@@ -23,10 +26,6 @@ import uz.akbar.resto.repository.UserRepository;
 import uz.akbar.resto.service.AttachmentService;
 import uz.akbar.resto.service.AuthService;
 import uz.akbar.resto.service.EmailService;
-
-import java.time.Instant;
-import java.util.Optional;
-import java.util.Set;
 
 /** AuthServiceImpl */
 @RequiredArgsConstructor
@@ -39,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
 	private final EmailService emailService;
 	private final UserMapper userMapper;
 	private final AttachmentService attachmentService;
+	private final OtpVerificationServiceImpl otpVerificationService;
 	// private final AuthenticationManager authenticationManager;
 	// private final JwtProvider jwtProvider;
 	// private final RefreshTokenRepository refreshTokenRepository;
@@ -78,13 +78,15 @@ public class AuthServiceImpl implements AuthService {
 
 		User saved = repository.save(user);
 
-		emailService.sendRegistrationEmail(saved.getEmail(), saved.getId());
+		String otp = otpVerificationService.createOtp(saved.getId());
+		// emailService.sendRegistrationEmail(saved.getEmail(), saved.getId());
+		emailService.sendOtpEmail(saved.getEmail(), otp, otpVerificationService.getExpiryMinutes());
 
 		UserDto userDto = userMapper.toDto(saved);
 
 		return AppResponse.builder()
 				.success(true)
-				.message("Validation token has been sent to your email for registration")
+				.message("Validation token has been sent to your email for register verification")
 				.data(userDto)
 				.build();
 	}
@@ -191,4 +193,21 @@ public class AuthServiceImpl implements AuthService {
 		// refreshTokenRepository.delete(storedToken);
 		// SecurityContextHolder.clearContext();
 	}
+
+	@Override
+	public AppResponse verifyOtp(OtpVerificationDto dto) {
+		boolean isValid = otpVerificationService.verifyOtp(dto.getOtp(), dto.getUserId());
+
+		if (!isValid)
+			throw new AppBadRequestException("Invalid or expired OTP");
+
+		User user = repository.findById(dto.getUserId())
+				.orElseThrow(() -> new AppBadRequestException("User not found"));
+
+		user.setStatus(GeneralStatus.ACTIVE);
+		repository.save(user);
+
+		return AppResponse.builder().build();
+	}
+
 }

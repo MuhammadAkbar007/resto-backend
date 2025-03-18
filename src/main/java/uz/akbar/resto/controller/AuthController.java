@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.request.LogInDto;
+import uz.akbar.resto.payload.request.OtpVerificationDto;
 import uz.akbar.resto.payload.request.RefreshTokenRequestDto;
 import uz.akbar.resto.payload.request.RegisterDto;
 import uz.akbar.resto.service.AuthService;
@@ -28,6 +29,12 @@ public class AuthController {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterDto dto) {
 		AppResponse response = service.registerUser(dto);
 		return ResponseEntity.status(201).body(response);
+	}
+
+	@PostMapping("/verify-otp")
+	public ResponseEntity<?> verifyOtp(@RequestBody OtpVerificationDto dto) {
+		AppResponse response = service.verifyOtp(dto);
+		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/login")

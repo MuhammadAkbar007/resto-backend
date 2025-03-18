@@ -7,5 +7,7 @@ import java.util.UUID;
  */
 public interface EmailService {
 
+	void sendOtpEmail(String email, String otp, int expiryMinutes);
+
 	void sendRegistrationEmail(String email, UUID userId);
 }
