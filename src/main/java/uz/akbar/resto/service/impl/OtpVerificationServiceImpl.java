@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,16 +59,23 @@ public class OtpVerificationServiceImpl implements OtpVerificationService {
 				.findByUserIdAndIsVerifiedFalseAndVisibleTrueOrderByCreatedAtDesc(userId);
 
 		for (OtpVerification verification : verifications) {
-
 			if (verification.getOtp().equals(otp) && Instant.now().isBefore(verification.getExpiryTime())) {
-				verification.setVerified(true);
-				repository.save(verification);
-
+				repository.delete(verification);
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	@Override
+	@Transactional
+	@Scheduled(fixedRateString = "${app.otp.cleanup-interval:86400000}") // run daily 86.400.000 ms
+	public void cleanupExpiredOtps() {
+		List<OtpVerification> expiredOtps = repository.findByExpiryTimeBefore(Instant.now());
+
+		if (!expiredOtps.isEmpty())
+			repository.deleteAll(expiredOtps);
 	}
 
 	private String generateOtp(int length) {
@@ -80,4 +88,5 @@ public class OtpVerificationServiceImpl implements OtpVerificationService {
 
 		return otp.toString();
 	}
+
 }

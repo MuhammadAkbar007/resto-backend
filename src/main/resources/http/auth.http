@@ -9,3 +9,12 @@ Content-Type: application/json
 	"phoneNumber": "998945060748",
 	"password": "root123"
 }
+
+### Verification
+POST http://localhost:8080/api/v1/auth/verify-otp
+Content-Type: application/json
+
+{
+	"userId": "97f4fb16-1cbf-4348-a52a-f8e5644ae603",
+	"otp": "284287"
+}

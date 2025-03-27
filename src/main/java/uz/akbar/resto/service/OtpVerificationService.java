@@ -10,4 +10,6 @@ public interface OtpVerificationService {
 	String createOtp(UUID userId);
 
 	boolean verifyOtp(String otp, UUID userId);
+
+	void cleanupExpiredOtps();
 }

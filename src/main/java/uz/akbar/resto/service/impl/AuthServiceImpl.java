@@ -207,7 +207,10 @@ public class AuthServiceImpl implements AuthService {
 		user.setStatus(GeneralStatus.ACTIVE);
 		repository.save(user);
 
-		return AppResponse.builder().build();
+		return AppResponse.builder()
+				.success(true)
+				.message("OTP is verified. Your registration is complete now.")
+				.build();
 	}
 
 }

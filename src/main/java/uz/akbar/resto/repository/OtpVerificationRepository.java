@@ -1,5 +1,6 @@
 package uz.akbar.resto.repository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,4 +14,6 @@ import uz.akbar.resto.entity.OtpVerification;
 public interface OtpVerificationRepository extends JpaRepository<OtpVerification, UUID> {
 
 	List<OtpVerification> findByUserIdAndIsVerifiedFalseAndVisibleTrueOrderByCreatedAtDesc(UUID userId);
+
+	List<OtpVerification> findByExpiryTimeBefore(Instant now);
 }

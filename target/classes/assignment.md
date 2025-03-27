@@ -1,5 +1,24 @@
 # Functionality
 
+## Additional Considerations
+
+ - [ ] *Security Enhancements*
+Consider rate limiting OTP verification attempts to prevent brute force attacks
+You might want to implement a maximum attempt count before temporarily locking verification
+
+ - [ ] *User Experience*
+You could add a resend OTP functionality for cases where the email is delayed or the OTP 
+expires. Consider adding alternative delivery methods (SMS) for the OTP
+
+ - [ ] *Recovery Process*
+Implement a mechanism to handle cases where users lose access to their email 
+during registration
+
+ - [-] *Cleaning db*
+Delete expired OTPs
+
+
+
 > [!NOTE]
 > - default image for user and dish -> metadata should be saved in db
 > - Pagination data
