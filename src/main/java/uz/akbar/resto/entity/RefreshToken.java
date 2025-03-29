@@ -23,7 +23,7 @@ import uz.akbar.resto.entity.template.AbsUUIDEntity;
 @Entity
 public class RefreshToken extends AbsUUIDEntity {
 
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, length = 2048)
 	private String token;
 
 	@Column(nullable = false)

@@ -92,6 +92,7 @@ public class JwtProvider {
 				.expiryDate(expiryDate)
 				.createdAt(Instant.now())
 				.user(user)
+				.visible(true)
 				.build();
 
 		refreshTokenRepository.save(refreshToken);

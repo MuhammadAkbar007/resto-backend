@@ -1,10 +1,10 @@
 # Functionality
 ## User
  - [x] registration *Two-step email verification with OTP*
- - [ ] admin seeder in dataInitializer
- - [-] log in
- - [ ] log out
+ - [x] log in
+ - [-] log out
  - [ ] change credentials *email, password etc*
+ - [ ] admin seeder in dataInitializer
 
 ## System
  - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*

@@ -15,6 +15,15 @@ POST http://localhost:8080/api/v1/auth/verify-otp
 Content-Type: application/json
 
 {
-	"userId": "9bed0fc3-7048-4e55-b063-66785cc21619",
-	"otp": "312772"
+	"userId": "6ac94650-6d8d-4269-aa19-88d04e030532",
+	"otp": "035927"
+}
+
+### Login
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+	"email": "akbarjondev007@gmail.com",
+	"password": "root123"
 }

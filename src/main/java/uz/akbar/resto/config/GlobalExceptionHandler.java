@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,6 +40,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(AppBadRequestException.class)
 	public ResponseEntity<?> handle(AppBadRequestException e) {
 		// e.printStackTrace();
+		return ResponseEntity.badRequest().body(e.getMessage());
+	}
+
+	// org.springframework.security.authentication.DisabledException
+	@ExceptionHandler(DisabledException.class)
+	public ResponseEntity<?> handle(DisabledException e) {
 		return ResponseEntity.badRequest().body(e.getMessage());
 	}
 
