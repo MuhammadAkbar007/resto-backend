@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import uz.akbar.resto.service.OtpVerificationService;
 public class OtpVerificationServiceImpl implements OtpVerificationService {
 
 	private final OtpVerificationRepository repository;
+	private final BCryptPasswordEncoder encoder;
 
 	@Value("${app.otp.expiryMinutes:15}")
 	private int expiryMinutes;
@@ -39,7 +41,7 @@ public class OtpVerificationServiceImpl implements OtpVerificationService {
 
 		OtpVerification otpVerification = OtpVerification.builder()
 				.userId(userId)
-				.otp(otp)
+				.otp(encoder.encode(otp))
 				.expiryTime(Instant.now().plusSeconds(expiryMinutes * 60))
 				.createdAt(Instant.now())
 				.isVerified(false)
@@ -59,10 +61,20 @@ public class OtpVerificationServiceImpl implements OtpVerificationService {
 				.findByUserIdAndIsVerifiedFalseAndVisibleTrueOrderByCreatedAtDesc(userId);
 
 		for (OtpVerification verification : verifications) {
-			if (verification.getOtp().equals(otp) && Instant.now().isBefore(verification.getExpiryTime())) {
+			if (verification.getAttemptCount() >= 5) {
 				repository.delete(verification);
+				repository.flush();
+				return false;
+			}
+
+			if (encoder.matches(otp, verification.getOtp()) && Instant.now().isBefore(verification.getExpiryTime())) {
+				repository.delete(verification);
+				repository.flush();
 				return true;
 			}
+
+			verification.incrementAttempt();
+			repository.save(verification);
 		}
 
 		return false;
@@ -72,10 +84,7 @@ public class OtpVerificationServiceImpl implements OtpVerificationService {
 	@Transactional
 	@Scheduled(fixedRateString = "${app.otp.cleanup-interval:86400000}") // run daily 86.400.000 ms
 	public void cleanupExpiredOtps() {
-		List<OtpVerification> expiredOtps = repository.findByExpiryTimeBefore(Instant.now());
-
-		if (!expiredOtps.isEmpty())
-			repository.deleteAll(expiredOtps);
+		repository.deleteByExpiryTimeBefore(Instant.now());
 	}
 
 	private String generateOtp(int length) {

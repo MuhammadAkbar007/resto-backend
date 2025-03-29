@@ -1,23 +1,13 @@
 # Functionality
+## User
+ - [x] registration *Two-step email verification with OTP*
+ - [ ] admin seeder in dataInitializer
+ - [-] log in
+ - [ ] log out
+ - [ ] change credentials *email, password etc*
 
-## Additional Considerations
-
- - [ ] *Security Enhancements*
-Consider rate limiting OTP verification attempts to prevent brute force attacks
-You might want to implement a maximum attempt count before temporarily locking verification
-
- - [ ] *User Experience*
-You could add a resend OTP functionality for cases where the email is delayed or the OTP 
-expires. Consider adding alternative delivery methods (SMS) for the OTP
-
- - [ ] *Recovery Process*
-Implement a mechanism to handle cases where users lose access to their email 
-during registration
-
- - [-] *Cleaning db*
-Delete expired OTPs
-
-
+## System
+ - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*
 
 > [!NOTE]
 > - default image for user and dish -> metadata should be saved in db
@@ -53,18 +43,14 @@ public class PaginationData {
 > - in orderService
 before saving, getNextOrderNumber from repo
 
-## System
- - [ ] implement logging
-
-## User
- - [ ] registration *Two-step email verification with OTP*
- - [ ] admin seeder in dataInitializer
- - [ ] log in
- - [ ] log out
- - [ ] change credentials *email, password etc*
+## OTP for email verification
+ - [x] *Security Enhancements*
+Consider rate limiting OTP verification attempts to prevent brute force attacks
+You might want to implement a maximum attempt count before temporarily locking verification
+ - [x] *Cleaning db*
+Delete expired OTPs
 
 # Entity
-
 ## User
  - id
  - firstName

@@ -15,5 +15,5 @@ public interface OtpVerificationRepository extends JpaRepository<OtpVerification
 
 	List<OtpVerification> findByUserIdAndIsVerifiedFalseAndVisibleTrueOrderByCreatedAtDesc(UUID userId);
 
-	List<OtpVerification> findByExpiryTimeBefore(Instant now);
+	void deleteByExpiryTimeBefore(Instant now);
 }

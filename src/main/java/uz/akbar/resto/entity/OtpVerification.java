@@ -6,6 +6,7 @@ import java.util.UUID;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,13 @@ public class OtpVerification extends AbsUUIDEntity {
 	@Column(nullable = false)
 	private Instant expiryTime;
 
-	@Column(nullable = false)
 	private boolean isVerified;
+
+	@Builder.Default
+	@Column(nullable = false)
+	private int attemptCount = 0;
+
+	public void incrementAttempt() {
+		attemptCount++;
+	}
 }
