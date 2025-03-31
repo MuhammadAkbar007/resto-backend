@@ -1,15 +1,23 @@
 package uz.akbar.resto.config;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import uz.akbar.resto.entity.Role;
+import uz.akbar.resto.entity.User;
+import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.repository.RoleRepository;
+import uz.akbar.resto.repository.UserRepository;
+import uz.akbar.resto.service.AttachmentService;
 
 /**
  * DataInitializer
@@ -17,19 +25,73 @@ import uz.akbar.resto.repository.RoleRepository;
 @Configuration
 public class DataInitializer {
 
+	@Value("${admin.default.email}")
+	private String adminEmail;
+
+	@Value("${admin.default.phoneNumber}")
+	private String adminPhoneNumber;
+
+	@Value("${admin.default.password}")
+	private String adminPassword;
+
+	@Value("${admin.default.firstName}")
+	private String adminFirstName;
+
+	@Value("${admin.default.lastName}")
+	private String adminLastName;
+
 	@Bean
 	@Transactional
-	public CommandLineRunner initData(RoleRepository roleRepository) {
+	public CommandLineRunner initData(
+			RoleRepository roleRepository,
+			UserRepository userRepository,
+			PasswordEncoder passwordEncoder,
+			AttachmentService attachmentService) {
 		return args -> {
-			// create customerRole if doesn't exist
-			roleRepository.findByRoleType(RoleType.CUSTOMER).orElseGet(() -> {
-				Role role = new Role();
-				role.setRoleType(RoleType.CUSTOMER);
-				role.setVisible(true);
-				role.setCreatedAt(Instant.now());
 
-				return roleRepository.save(role);
-			});
+			// create customerRole if not exists
+			Role customerRole = roleRepository.findByRoleType(RoleType.CUSTOMER)
+					.orElseGet(() -> {
+						Role role = Role.builder()
+								.roleType(RoleType.CUSTOMER)
+								.description("Customer role")
+								.visible(true)
+								.createdAt(Instant.now())
+								.build();
+
+						return roleRepository.save(role);
+					});
+
+			// create adminRole if not exists
+			Role adminRole = roleRepository.findByRoleType(RoleType.ADMIN)
+					.orElseGet(() -> {
+						Role role = Role.builder()
+								.roleType(RoleType.ADMIN)
+								.description("Customer admin")
+								.visible(true)
+								.createdAt(Instant.now())
+								.build();
+
+						return roleRepository.save(role);
+					});
+
+			// create admin & user User if not exists
+			if (!userRepository.existsByEmailOrPhoneNumber(adminEmail, adminPhoneNumber)) {
+				User adminUser = User.builder()
+						.firstName(adminFirstName)
+						.lastName(adminLastName)
+						.email(adminEmail)
+						.phoneNumber(adminPhoneNumber)
+						.password(passwordEncoder.encode(adminPassword))
+						.status(GeneralStatus.ACTIVE)
+						.photo(attachmentService.getDefaultProfileImage())
+						.roles(Set.of(customerRole, adminRole))
+						.visible(true)
+						.createdAt(Instant.now())
+						.build();
+
+				userRepository.save(adminUser);
+			}
 		};
 	}
 }

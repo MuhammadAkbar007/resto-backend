@@ -7,7 +7,7 @@ import uz.akbar.resto.payload.response.RoleDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-03-31T06:24:46+0500",
+    date = "2025-03-31T11:47:11+0500",
     comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
@@ -21,6 +21,7 @@ public class RoleMapperImpl implements RoleMapper {
 
         RoleDto.RoleDtoBuilder roleDto = RoleDto.builder();
 
+        roleDto.description( role.getDescription() );
         roleDto.id( role.getId() );
         roleDto.roleType( role.getRoleType() );
 

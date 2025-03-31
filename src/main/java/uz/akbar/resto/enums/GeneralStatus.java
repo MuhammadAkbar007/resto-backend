@@ -4,5 +4,6 @@ package uz.akbar.resto.enums;
 public enum GeneralStatus {
 	IN_REGISTRATION,
 	ACTIVE,
-	BLOCK
+	BLOCK,
+	DELETED
 }

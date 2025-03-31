@@ -11,7 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.experimental.SuperBuilder;
 import uz.akbar.resto.entity.template.AbsLongEntity;
 import uz.akbar.resto.enums.RoleType;
 
@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /** Role */
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -27,11 +27,14 @@ import java.util.Set;
 @Entity(name = "roles")
 public class Role extends AbsLongEntity {
 
-    @Column(nullable = false, unique = true)
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+	@Column(nullable = false, unique = true)
+	@Enumerated(EnumType.STRING)
+	private RoleType roleType;
 
-    @Builder.Default
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+	@Column(nullable = false, columnDefinition = "text")
+	private String description;
+
+	@Builder.Default
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> users = new HashSet<>();
 }

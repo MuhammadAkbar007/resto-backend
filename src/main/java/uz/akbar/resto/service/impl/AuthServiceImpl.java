@@ -91,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
 		String otp = otpVerificationService.createOtp(saved.getId());
 		emailService.sendOtpEmail(saved.getEmail(), otp, otpVerificationService.getExpiryMinutes());
 
-		UserDto userDto = userMapper.toDto(saved);
+		UserDto userDto = userMapper.toUserDto(saved);
 
 		return AppResponse.builder()
 				.success(true)

@@ -1,21 +1,22 @@
 package uz.akbar.resto.payload.response;
 
-import java.util.HashSet;
+import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.akbar.resto.enums.GeneralStatus;
 
-/**
- * UserDto
- */
 @Builder
 @Getter
 @Setter
-public class UserDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDetailsDto {
 
 	private UUID id;
 
@@ -23,12 +24,19 @@ public class UserDto {
 
 	private String lastName;
 
+	private String email;
+
+	private String phoneNumber;
+
 	private GeneralStatus status;
 
 	private UUID photoId;
 
+	private Instant registrationDate;
+
+	private Boolean visible;
+
 	private Set<RoleDto> roles;
 
-	@Builder.Default
-	private Set<OrderDto> orders = new HashSet<>();
+	private Set<OrderDto> orders;
 }

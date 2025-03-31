@@ -3,9 +3,12 @@
  - [x] registration *Two-step email verification with OTP*
  - [x] log in
  - [x] log out
- - [-] refresh token
+ - [x] refresh token
+ - [x] admin seeder in dataInitializer
+ - [-] `read` (CRUD)
+ - [ ] `update` (CRUD)
+ - [ ] `delete` (CRUD)
  - [ ] change credentials *email, password etc*
- - [ ] admin seeder in dataInitializer
 
 ## System
  - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*

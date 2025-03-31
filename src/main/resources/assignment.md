@@ -4,8 +4,11 @@
  - [x] log in
  - [x] log out
  - [x] refresh token
- - [-] change credentials *email, password etc*
- - [ ] admin seeder in dataInitializer
+ - [x] admin seeder in dataInitializer
+ - [-] `read` (CRUD)
+ - [ ] `update` (CRUD)
+ - [ ] `delete` (CRUD)
+ - [ ] change credentials *email, password etc*
 
 ## System
  - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*

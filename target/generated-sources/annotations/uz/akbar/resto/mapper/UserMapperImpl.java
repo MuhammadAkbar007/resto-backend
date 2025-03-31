@@ -10,11 +10,12 @@ import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
 import uz.akbar.resto.payload.response.OrderDto;
 import uz.akbar.resto.payload.response.RoleDto;
+import uz.akbar.resto.payload.response.UserDetailsDto;
 import uz.akbar.resto.payload.response.UserDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-03-31T06:24:46+0500",
+    date = "2025-03-31T11:47:11+0500",
     comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
@@ -26,7 +27,7 @@ public class UserMapperImpl implements UserMapper {
     private OrderMapper orderMapper;
 
     @Override
-    public UserDto toDto(User user) {
+    public UserDto toUserDto(User user) {
         if ( user == null ) {
             return null;
         }
@@ -42,6 +43,29 @@ public class UserMapperImpl implements UserMapper {
         userDto.status( user.getStatus() );
 
         return userDto.build();
+    }
+
+    @Override
+    public UserDetailsDto toUserDetailsDto(User user) {
+        if ( user == null ) {
+            return null;
+        }
+
+        UserDetailsDto.UserDetailsDtoBuilder userDetailsDto = UserDetailsDto.builder();
+
+        userDetailsDto.registrationDate( user.getCreatedAt() );
+        userDetailsDto.photoId( attachmentToId( user.getPhoto() ) );
+        userDetailsDto.email( user.getEmail() );
+        userDetailsDto.firstName( user.getFirstName() );
+        userDetailsDto.id( user.getId() );
+        userDetailsDto.lastName( user.getLastName() );
+        userDetailsDto.orders( orderSetToOrderDtoSet( user.getOrders() ) );
+        userDetailsDto.phoneNumber( user.getPhoneNumber() );
+        userDetailsDto.roles( roleSetToRoleDtoSet( user.getRoles() ) );
+        userDetailsDto.status( user.getStatus() );
+        userDetailsDto.visible( user.getVisible() );
+
+        return userDetailsDto.build();
     }
 
     protected Set<OrderDto> orderSetToOrderDtoSet(Set<Order> set) {

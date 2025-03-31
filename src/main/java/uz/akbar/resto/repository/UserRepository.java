@@ -12,6 +12,8 @@ import uz.akbar.resto.entity.User;
  */
 public interface UserRepository extends JpaRepository<User, UUID> {
 
+	boolean existsByEmailOrPhoneNumber(String email, String phoneNumber);
+
 	Optional<User> findByEmail(String email);
 
 	Optional<User> findByEmailOrPhoneNumberAndVisibleTrue(String email, String phoneNumber);

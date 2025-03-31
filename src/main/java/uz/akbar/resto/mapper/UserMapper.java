@@ -8,6 +8,7 @@ import org.mapstruct.Named;
 
 import uz.akbar.resto.entity.Attachment;
 import uz.akbar.resto.entity.User;
+import uz.akbar.resto.payload.response.UserDetailsDto;
 import uz.akbar.resto.payload.response.UserDto;
 
 /**
@@ -17,7 +18,11 @@ import uz.akbar.resto.payload.response.UserDto;
 public interface UserMapper {
 
 	@Mapping(target = "photoId", source = "photo", qualifiedByName = "attachmentToId")
-	UserDto toDto(User user);
+	UserDto toUserDto(User user);
+
+	@Mapping(target = "registrationDate", source = "createdAt")
+	@Mapping(target = "photoId", source = "photo", qualifiedByName = "attachmentToId")
+	UserDetailsDto toUserDetailsDto(User user);
 
 	@Named("attachmentToId")
 	default UUID attachmentToId(Attachment attachment) {

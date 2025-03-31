@@ -16,4 +16,6 @@ public class RoleDto {
 	private Long id;
 
 	private RoleType roleType;
+
+	private String description;
 }
