@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import uz.akbar.resto.entity.RefreshToken;
 import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.exception.AppBadRequestException;
+import uz.akbar.resto.exception.RefreshTokenException;
 import uz.akbar.resto.mapper.UserMapper;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.jwt.JwtDto;
@@ -27,6 +29,7 @@ import uz.akbar.resto.payload.request.OtpVerificationDto;
 import uz.akbar.resto.payload.request.RefreshTokenRequestDto;
 import uz.akbar.resto.payload.request.RegisterDto;
 import uz.akbar.resto.payload.response.UserDto;
+import uz.akbar.resto.repository.RefreshTokenRepository;
 import uz.akbar.resto.repository.RoleRepository;
 import uz.akbar.resto.repository.UserRepository;
 import uz.akbar.resto.security.CustomUserDetails;
@@ -49,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
 	private final OtpVerificationServiceImpl otpVerificationService;
 	private final AuthenticationManager authenticationManager;
 	private final JwtProvider jwtProvider;
-	// private final RefreshTokenRepository refreshTokenRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	@Override
 	@Transactional
@@ -67,8 +70,7 @@ public class AuthServiceImpl implements AuthService {
 			}
 		});
 
-		Role roleCustomer = roleRepository
-				.findByRoleType(RoleType.CUSTOMER)
+		Role roleCustomer = roleRepository.findByRoleType(RoleType.CUSTOMER)
 				.orElseThrow(() -> new RuntimeException("Role Customer is not found"));
 
 		User user = User.builder()
@@ -87,7 +89,6 @@ public class AuthServiceImpl implements AuthService {
 		User saved = repository.save(user);
 
 		String otp = otpVerificationService.createOtp(saved.getId());
-		// emailService.sendRegistrationEmail(saved.getEmail(), saved.getId());
 		emailService.sendOtpEmail(saved.getEmail(), otp, otpVerificationService.getExpiryMinutes());
 
 		UserDto userDto = userMapper.toDto(saved);
@@ -101,8 +102,8 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public AppResponse logIn(LogInDto dto) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
 
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 		User user = userDetails.getUser();
@@ -182,25 +183,23 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	@Transactional
 	public void logout(RefreshTokenRequestDto dto) {
-		// String refreshToken = dto.refreshToken();
-		//
-		// if (!jwtProvider.validateToken(refreshToken)) {
-		// throw new RefreshTokenException("Invalid refresh token");
-		// }
-		//
-		// RefreshToken storedToken = refreshTokenRepository
-		// .findByToken(refreshToken)
-		// .orElseThrow(
-		// () -> new RefreshTokenException(
-		// "Refresh token is not in database!"));
-		//
-		// if (storedToken.getExpiryDate().isBefore(Instant.now())) {
-		// refreshTokenRepository.delete(storedToken);
-		// throw new RefreshTokenException("Refresh token has expired");
-		// }
-		//
-		// refreshTokenRepository.delete(storedToken);
-		// SecurityContextHolder.clearContext();
+		String refreshToken = dto.getRefreshToken();
+
+		if (!jwtProvider.validateToken(refreshToken)) {
+			throw new RefreshTokenException("Invalid refresh token");
+		}
+
+		RefreshToken storedToken = refreshTokenRepository
+				.findByToken(refreshToken)
+				.orElseThrow(() -> new RefreshTokenException("Refresh token is not in database!"));
+
+		if (storedToken.getExpiryDate().isBefore(Instant.now())) {
+			refreshTokenRepository.delete(storedToken);
+			throw new RefreshTokenException("Refresh token has expired");
+		}
+
+		refreshTokenRepository.delete(storedToken);
+		SecurityContextHolder.clearContext();
 	}
 
 	@Override

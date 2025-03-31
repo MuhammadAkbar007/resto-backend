@@ -27,3 +27,11 @@ Content-Type: application/json
 	"email": "akbarjondev007@gmail.com",
 	"password": "root123"
 }
+
+### Logout
+POST http://localhost:8080/api/v1/auth/logout
+Content-Type: application/json
+
+{
+	"refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2JhcmpvbmRldjAwN0BnbWFpbC5jb20iLCJ1c2VySWQiOiI2YWM5NDY1MC02ZDhkLTQyNjktYWExOS04OGQwNGUwMzA1MzIiLCJpYXQiOjE3NDMzODQ3OTAsImV4cCI6MTc0Mzk4OTU5MH0.N5ld-vNyj_hzAWocgp8o5Kvjk3Ih9FeDdGPkMO4sSyEuCzU92jb2PWAVoBYuUmKRy9hzjTrOigLAwdt-TngIeg"
+}

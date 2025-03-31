@@ -2,7 +2,8 @@
 ## User
  - [x] registration *Two-step email verification with OTP*
  - [x] log in
- - [-] log out
+ - [x] log out
+ - [-] refresh token
  - [ ] change credentials *email, password etc*
  - [ ] admin seeder in dataInitializer
 
