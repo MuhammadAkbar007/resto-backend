@@ -3,8 +3,8 @@
  - [x] registration *Two-step email verification with OTP*
  - [x] log in
  - [x] log out
- - [-] refresh token
- - [ ] change credentials *email, password etc*
+ - [x] refresh token
+ - [-] change credentials *email, password etc*
  - [ ] admin seeder in dataInitializer
 
 ## System

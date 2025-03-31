@@ -35,3 +35,11 @@ Content-Type: application/json
 {
 	"refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2JhcmpvbmRldjAwN0BnbWFpbC5jb20iLCJ1c2VySWQiOiI2YWM5NDY1MC02ZDhkLTQyNjktYWExOS04OGQwNGUwMzA1MzIiLCJpYXQiOjE3NDMzODQ3OTAsImV4cCI6MTc0Mzk4OTU5MH0.N5ld-vNyj_hzAWocgp8o5Kvjk3Ih9FeDdGPkMO4sSyEuCzU92jb2PWAVoBYuUmKRy9hzjTrOigLAwdt-TngIeg"
 }
+
+### Refresh token
+POST http://localhost:8080/api/v1/auth/refresh
+Content-Type: application/json
+
+{
+	"refreshToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2JhcmpvbmRldjAwN0BnbWFpbC5jb20iLCJ1c2VySWQiOiI2YWM5NDY1MC02ZDhkLTQyNjktYWExOS04OGQwNGUwMzA1MzIiLCJpYXQiOjE3NDMzOTYzMTcsImV4cCI6MTc0NDAwMTExN30.5bO_gaGoQw3-TX6vAnBZVYZLXtcP4RDV5FD3whcmWqPgQGfCQtZsNHOYeB9ZTQH32J4_Z0d92RcSRt2cYfwMCg"
+}

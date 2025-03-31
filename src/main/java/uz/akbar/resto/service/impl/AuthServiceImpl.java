@@ -134,50 +134,44 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	@Transactional
 	public AppResponse refreshToken(RefreshTokenRequestDto dto) {
-		// String refreshToken = dto.refreshToken();
-		//
-		// if (!jwtProvider.validateToken(refreshToken)) {
-		// throw new RefreshTokenException("Invalid refresh token");
-		// }
-		//
-		// RefreshToken storedToken = refreshTokenRepository
-		// .findByToken(refreshToken)
-		// .orElseThrow(
-		// () -> new RefreshTokenException(
-		// "Refresh token is not in database!"));
-		//
-		// if (storedToken.getExpiryDate().isBefore(Instant.now())) {
-		// refreshTokenRepository.delete(storedToken);
-		// throw new RefreshTokenException("Refresh token has expired");
-		// }
-		//
-		// String username = jwtProvider.getUsernameFromToken(refreshToken);
-		//
-		// CustomUserDetails userDetails = (CustomUserDetails)
-		// SecurityContextHolder.getContext().getAuthentication()
-		// .getPrincipal();
-		//
-		// UsernamePasswordAuthenticationToken authentication = new
-		// UsernamePasswordAuthenticationToken(
-		// userDetails, null, userDetails.getAuthorities());
-		//
-		// JwtDto accessTokenDto = jwtProvider.generateAccessToken(authentication);
-		// JwtDto refreshTokenDto = jwtProvider.generateRefreshToken(authentication);
-		//
-		// JwtResponseDto jwtResponseDto = JwtResponseDto.builder()
-		// .username(username)
-		// .accessToken(accessTokenDto.token())
-		// .refreshToken(refreshTokenDto.token())
-		// .accessTokenExpiryTime(accessTokenDto.expiryDate())
-		// .refreshTokenExpiryTime(refreshTokenDto.expiryDate())
-		// .build();
-		//
-		// return AppResponse.builder()
-		// .success(true)
-		// .message("Tokens successfully regenerated")
-		// .data(jwtResponseDto)
-		// .build();
-		return null;
+		String refreshToken = dto.getRefreshToken();
+
+		if (!jwtProvider.validateToken(refreshToken))
+			throw new RefreshTokenException("Invalid refresh token");
+
+		RefreshToken storedToken = refreshTokenRepository.findByToken(refreshToken)
+				.orElseThrow(() -> new RefreshTokenException("Refresh token is not found"));
+
+		if (storedToken.getExpiryDate().isBefore(Instant.now())) {
+			refreshTokenRepository.delete(storedToken);
+			throw new RefreshTokenException("Refresh token has expired");
+		}
+
+		String username = jwtProvider.getUsernameFromToken(refreshToken);
+
+		User user = repository.findByEmail(username).orElseThrow(() -> new AppBadRequestException("User not found"));
+
+		CustomUserDetails userDetails = new CustomUserDetails(user);
+
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+				userDetails.getAuthorities());
+
+		JwtDto accessTokenDto = jwtProvider.generateAccessToken(authentication);
+		JwtDto refreshTokenDto = jwtProvider.generateRefreshToken(authentication);
+
+		JwtResponseDto jwtResponseDto = JwtResponseDto.builder()
+				.username(username)
+				.accessToken(accessTokenDto.getToken())
+				.refreshToken(refreshTokenDto.getToken())
+				.accessTokenExpiryTime(accessTokenDto.getExpiryDate())
+				.refreshTokenExpiryTime(refreshTokenDto.getExpiryDate())
+				.build();
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Tokens successfully regenerated")
+				.data(jwtResponseDto)
+				.build();
 	}
 
 	@Override
@@ -185,9 +179,8 @@ public class AuthServiceImpl implements AuthService {
 	public void logout(RefreshTokenRequestDto dto) {
 		String refreshToken = dto.getRefreshToken();
 
-		if (!jwtProvider.validateToken(refreshToken)) {
+		if (!jwtProvider.validateToken(refreshToken))
 			throw new RefreshTokenException("Invalid refresh token");
-		}
 
 		RefreshToken storedToken = refreshTokenRepository
 				.findByToken(refreshToken)
