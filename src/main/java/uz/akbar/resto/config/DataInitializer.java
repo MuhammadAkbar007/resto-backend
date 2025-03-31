@@ -1,7 +1,6 @@
 package uz.akbar.resto.config;
 
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -50,10 +49,10 @@ public class DataInitializer {
 		return args -> {
 
 			// create customerRole if not exists
-			Role customerRole = roleRepository.findByRoleType(RoleType.CUSTOMER)
+			Role customerRole = roleRepository.findByRoleType(RoleType.ROLE_CUSTOMER)
 					.orElseGet(() -> {
 						Role role = Role.builder()
-								.roleType(RoleType.CUSTOMER)
+								.roleType(RoleType.ROLE_CUSTOMER)
 								.description("Customer role")
 								.visible(true)
 								.createdAt(Instant.now())
@@ -63,10 +62,10 @@ public class DataInitializer {
 					});
 
 			// create adminRole if not exists
-			Role adminRole = roleRepository.findByRoleType(RoleType.ADMIN)
+			Role adminRole = roleRepository.findByRoleType(RoleType.ROLE_ADMIN)
 					.orElseGet(() -> {
 						Role role = Role.builder()
-								.roleType(RoleType.ADMIN)
+								.roleType(RoleType.ROLE_ADMIN)
 								.description("Customer admin")
 								.visible(true)
 								.createdAt(Instant.now())

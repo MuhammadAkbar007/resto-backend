@@ -2,8 +2,8 @@ package uz.akbar.resto.enums;
 
 /** RoleType */
 public enum RoleType {
-    CUSTOMER, // mijoz
-    EMPLOYEE, // ishchi
-    MANAGER, // boshqaruvchi
-    ADMIN // admin
+	ROLE_CUSTOMER, // mijoz
+	ROLE_EMPLOYEE, // ishchi
+	ROLE_MANAGER, // boshqaruvchi
+	ROLE_ADMIN // admin
 }

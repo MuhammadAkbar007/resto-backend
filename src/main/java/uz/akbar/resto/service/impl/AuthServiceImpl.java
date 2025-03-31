@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
 			}
 		});
 
-		Role roleCustomer = roleRepository.findByRoleType(RoleType.CUSTOMER)
+		Role roleCustomer = roleRepository.findByRoleType(RoleType.ROLE_CUSTOMER)
 				.orElseThrow(() -> new RuntimeException("Role Customer is not found"));
 
 		User user = User.builder()

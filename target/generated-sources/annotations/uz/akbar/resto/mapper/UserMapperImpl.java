@@ -15,7 +15,7 @@ import uz.akbar.resto.payload.response.UserDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-03-31T11:47:11+0500",
+    date = "2025-03-31T13:01:14+0500",
     comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
@@ -35,10 +35,12 @@ public class UserMapperImpl implements UserMapper {
         UserDto.UserDtoBuilder userDto = UserDto.builder();
 
         userDto.photoId( attachmentToId( user.getPhoto() ) );
+        userDto.email( user.getEmail() );
         userDto.firstName( user.getFirstName() );
         userDto.id( user.getId() );
         userDto.lastName( user.getLastName() );
         userDto.orders( orderSetToOrderDtoSet( user.getOrders() ) );
+        userDto.phoneNumber( user.getPhoneNumber() );
         userDto.roles( roleSetToRoleDtoSet( user.getRoles() ) );
         userDto.status( user.getStatus() );
 
