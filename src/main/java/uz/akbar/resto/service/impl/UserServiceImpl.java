@@ -1,23 +1,35 @@
 package uz.akbar.resto.service.impl;
 
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.exception.AppBadRequestException;
 import uz.akbar.resto.mapper.UserMapper;
 import uz.akbar.resto.payload.AppResponse;
+import uz.akbar.resto.payload.PaginationData;
 import uz.akbar.resto.payload.response.UserDetailsDto;
 import uz.akbar.resto.payload.response.UserDto;
 import uz.akbar.resto.repository.UserRepository;
@@ -64,13 +76,27 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public AppResponse getUsers(String searchTerm, String firstName, String lastName, String email,
-			GeneralStatus status, RoleType role, LocalDate fromDate, LocalDate toDate, int page, int size,
+	@Transactional(readOnly = true)
+	public AppResponse getUsers(String searchTerm, String firstName, String lastName, String email, String phoneNumber,
+			GeneralStatus status, RoleType role, LocalDateTime fromDate, LocalDateTime toDate, int page, int size,
 			String[] sort) {
 
 		Pageable pageable = createPageable(page, size, sort);
+		Specification<User> spec = buildSpecification(searchTerm, email, phoneNumber, fromDate, toDate, status, role);
 
-		return null;
+		Page<User> usersPage = repository.findAll(spec, pageable);
+
+		List<UserDetailsDto> usersDtos = usersPage.getContent().stream()
+				.map(mapper::toUserDetailsDto)
+				.collect(Collectors.toList());
+
+		PaginationData<UserDetailsDto> paginationData = PaginationData.of(usersDtos, usersPage);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Users retrieved successfully")
+				.data(paginationData)
+				.build();
 	}
 
 	/**
@@ -98,12 +124,19 @@ public class UserServiceImpl implements UserService {
 				if (sortItem.contains(",")) {
 					String[] parts = sortItem.split(",");
 					String property = parts[0];
+
+					if (!isValidProperty(property)) {
+						continue;
+					}
+
 					Sort.Direction direction = parts.length > 1 && parts[1].equalsIgnoreCase("asc") ? Sort.Direction.ASC
 							: Sort.Direction.DESC;
 
 					orders.add(new Sort.Order(direction, property));
 				} else {
-					orders.add(new Sort.Order(Sort.Direction.ASC, sortItem));
+					if (isValidProperty(sortItem)) {
+						orders.add(new Sort.Order(Sort.Direction.ASC, sortItem));
+					}
 				}
 			}
 		}
@@ -115,4 +148,61 @@ public class UserServiceImpl implements UserService {
 		return PageRequest.of(page, size, Sort.by(orders));
 	}
 
+	private Specification<User> buildSpecification(String searchTerm, String email, String phoneNumber,
+			LocalDateTime fromDate, LocalDateTime toDate, GeneralStatus status, RoleType role) {
+
+		return (root, query, criteriaBuilder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+
+			if (StringUtils.hasText(searchTerm)) {
+				String searchPattern = "%" + searchTerm.toLowerCase() + "%";
+
+				predicates.add(criteriaBuilder.or(
+						criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")), searchPattern),
+						criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")), searchPattern),
+						criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), searchPattern),
+						criteriaBuilder.like(criteriaBuilder.lower(root.get("phoneNumber")), searchPattern)));
+			}
+
+			if (StringUtils.hasText(email))
+				predicates.add(criteriaBuilder.equal(root.get("email"), email));
+
+			if (StringUtils.hasText(phoneNumber))
+				predicates.add(criteriaBuilder.equal(root.get("phoneNumber"), phoneNumber));
+
+			// Apply fromDate filter (e.g., createdAt should be >= fromDate)
+			if (fromDate != null) {
+				Instant fromInstant = fromDate.atZone(ZoneId.systemDefault()).toInstant();
+				predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), fromInstant));
+			}
+
+			// Apply toDate filter (e.g., createdAt should be <= toDate)
+			if (toDate != null) {
+				Instant toInstant = toDate.atZone(ZoneId.systemDefault()).toInstant();
+				predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), toInstant));
+			}
+
+			if (status != null)
+				predicates.add(criteriaBuilder.equal(root.get("status"), status));
+
+			if (role != null) {
+				Join<User, Role> roleJoin = root.join("roles", JoinType.INNER);
+				predicates.add(criteriaBuilder.equal(roleJoin.get("roleType"), role));
+				query.distinct(true);
+			}
+
+			predicates.add(criteriaBuilder.isTrue(root.get("visible")));
+
+			return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+		};
+
+	}
+
+	// TODO: make this dynamic or reconsider
+	private boolean isValidProperty(String property) {
+		List<String> validProperties = Arrays.asList("id", "firstName", "lastName", "email", "phoneNumber", "status",
+				"createdAt", "visible");
+
+		return validProperties.contains(property);
+	}
 }

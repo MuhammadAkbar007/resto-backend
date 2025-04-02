@@ -1,6 +1,6 @@
 package uz.akbar.resto.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import uz.akbar.resto.enums.GeneralStatus;
@@ -13,6 +13,7 @@ public interface UserService {
 
 	AppResponse getCurrentUser(UUID userId);
 
-	AppResponse getUsers(String searchTerm, String firstName, String lastName, String email, GeneralStatus status,
-			RoleType role, LocalDate fromDate, LocalDate toDate, int page, int size, String[] sort);
+	AppResponse getUsers(String searchTerm, String firstName, String lastName, String email, String phoneNumber,
+			GeneralStatus status,
+			RoleType role, LocalDateTime fromDate, LocalDateTime toDate, int page, int size, String[] sort);
 }

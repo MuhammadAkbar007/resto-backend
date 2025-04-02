@@ -1,0 +1,66 @@
+### get users' details with pagination and filter -> ADMIN
+GET http://localhost:8080/api/v1/user/all
+HTTP/1.1 200 
+
+# @_RES (formatted)
+{
+  "success": true,
+  "message": "Users retrieved successfully",
+  "data": {
+    "content": [
+      {
+        "id": "f84fb107-6c79-4c24-abd1-42d01fd6733b",
+        "firstName": "Akbar",
+        "lastName": "Ahmad",
+        "email": "fotismenos007@mail.ru",
+        "phoneNumber": "998945060749",
+        "status": "ACTIVE",
+        "photoId": "14bb702d-befb-4b5d-ad2b-696d5e5d17ef",
+        "registrationDate": "2025-03-31T07:33:43.830119Z",
+        "visible": true,
+        "roles": [
+          {
+            "id": 1,
+            "roleType": "ROLE_CUSTOMER",
+            "description": "Customer role"
+          },
+          {
+            "id": 2,
+            "roleType": "ROLE_ADMIN",
+            "description": "Customer admin"
+          }
+        ],
+        "orders": []
+      },
+      {
+        "id": "3e673bdd-a078-4bc7-a427-09963fed471c",
+        "firstName": "Akbar",
+        "lastName": "Ahmad",
+        "email": "akbarjondev007@gmail.com",
+        "phoneNumber": "998945060748",
+        "status": "ACTIVE",
+        "photoId": "3c1745cc-4d0b-4579-a87e-f25d68f12b60",
+        "registrationDate": "2025-03-31T08:05:16.478466Z",
+        "visible": true,
+        "roles": [
+          {
+            "id": 1,
+            "roleType": "ROLE_CUSTOMER",
+            "description": "Customer role"
+          }
+        ],
+        "orders": []
+      }
+    ],
+    "first": true,
+    "hasNext": false,
+    "hasPrevious": false,
+    "last": true,
+    "numberOfElements": 0,
+    "pageNumber": 0,
+    "pageSize": 10,
+    "totalElements": 2,
+    "totalPages": 1
+  }
+}
+# @_END

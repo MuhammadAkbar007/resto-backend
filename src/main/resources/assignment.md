@@ -5,10 +5,11 @@
  - [x] log out
  - [x] refresh token
  - [x] admin seeder in dataInitializer
- - [-] `read` (CRUD)
+ - [x] `read` (CRUD) *Pagination & Filter*
  - [ ] `update` (CRUD)
- - [ ] `delete` (CRUD)
+ - [-] `delete` (CRUD)
  - [ ] change credentials *email, password etc*
+ - [ ] change role *admin, manager, employee etc*
 
 ## System
  - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*
@@ -17,6 +18,9 @@
 > - default image for user and dish -> metadata should be saved in db
 > - in orderService
 before saving, getNextOrderNumber from repo
+
+## System Functionality
+ - [x] *PaginationData* is implemented
 
 ## OTP for email verification
  - [x] *Security Enhancements*

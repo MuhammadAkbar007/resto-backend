@@ -1,7 +1,6 @@
 package uz.akbar.resto.controller;
 
-import java.time.Instant;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -66,22 +65,24 @@ public class UserController {
 	 * 
 	 * @return AppResponse with users list
 	 */
-	@GetMapping
+	@GetMapping("/all")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> getUsers(
 			@RequestParam(required = false) String searchTerm, // for general search
 			@RequestParam(required = false) String firstName, // for filter
 			@RequestParam(required = false) String lastName, // for filter
 			@RequestParam(required = false) String email, // for filter
+			@RequestParam(required = false) String phoneNumber, // for filter
 			@RequestParam(required = false) GeneralStatus status, // for filter
 			@RequestParam(required = false) RoleType role, // for filter
-			@RequestParam(required = false) LocalDate fromDate, // for filter
-			@RequestParam(required = false) LocalDate toDate, // for filter
+			@RequestParam(required = false) LocalDateTime fromDate, // for filter
+			@RequestParam(required = false) LocalDateTime toDate, // for filter
 			@RequestParam(defaultValue = "0") int page, // for pagination
 			@RequestParam(defaultValue = "10") int size, // for pagination
-			@RequestParam(defaultValue = "createdAt,desc") String[] sort) { // for pagination
+			@RequestParam(defaultValue = "createdAt,desc") String[] sort) { // sorting for pagination
 
-		AppResponse response = service.getUsers(searchTerm, firstName, lastName, email, status, role, fromDate, toDate,
+		AppResponse response = service.getUsers(searchTerm, firstName, lastName, email, phoneNumber, status, role,
+				fromDate, toDate,
 				page, size, sort);
 
 		return ResponseEntity.ok(response);

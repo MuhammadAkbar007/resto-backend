@@ -25,6 +25,7 @@
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/mapper/RoleMapper.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/mapper/UserMapper.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/payload/AppResponse.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/payload/PaginationData.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/payload/jwt/JwtDto.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/payload/jwt/JwtResponseDto.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/payload/request/LogInDto.java
