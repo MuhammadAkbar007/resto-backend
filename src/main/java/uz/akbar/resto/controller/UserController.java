@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,14 +35,20 @@ public class UserController {
 	 */
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> getUserById(@PathVariable UUID id) {
+	public ResponseEntity<AppResponse> getUserById(@PathVariable UUID id) {
 		AppResponse response = service.getUserById(id);
 		return ResponseEntity.ok(response);
 	}
 
+	/**
+	 * get user his/her information
+	 * 
+	 * @param customUserDetails
+	 * @return
+	 */
 	@GetMapping("/me")
 	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+	public ResponseEntity<AppResponse> getCurrentUser(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 		AppResponse response = service.getCurrentUser(customUserDetails.getUserId());
 		return ResponseEntity.ok(response);
 	}
@@ -57,8 +64,8 @@ public class UserController {
 	 * @param email
 	 * @param status
 	 * @param role
-	 * @param fromDate
-	 * @param toDate
+	 * @param fromDateTime
+	 * @param toDateTime
 	 * @param page
 	 * @param size
 	 * @param sort
@@ -67,7 +74,7 @@ public class UserController {
 	 */
 	@GetMapping("/all")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> getUsers(
+	public ResponseEntity<AppResponse> getUsers(
 			@RequestParam(required = false) String searchTerm, // for general search
 			@RequestParam(required = false) String firstName, // for filter
 			@RequestParam(required = false) String lastName, // for filter
@@ -75,16 +82,24 @@ public class UserController {
 			@RequestParam(required = false) String phoneNumber, // for filter
 			@RequestParam(required = false) GeneralStatus status, // for filter
 			@RequestParam(required = false) RoleType role, // for filter
-			@RequestParam(required = false) LocalDateTime fromDate, // for filter
-			@RequestParam(required = false) LocalDateTime toDate, // for filter
+			@RequestParam(required = false) LocalDateTime fromDateTime, // for filter
+			@RequestParam(required = false) LocalDateTime toDateTime, // for filter
 			@RequestParam(defaultValue = "0") int page, // for pagination
 			@RequestParam(defaultValue = "10") int size, // for pagination
 			@RequestParam(defaultValue = "createdAt,desc") String[] sort) { // sorting for pagination
 
-		AppResponse response = service.getUsers(searchTerm, firstName, lastName, email, phoneNumber, status, role,
-				fromDate, toDate,
-				page, size, sort);
+		AppResponse response = service.getAllUsers(searchTerm, firstName, lastName, email, phoneNumber, status, role,
+				fromDateTime, toDateTime, page, size, sort);
 
 		return ResponseEntity.ok(response);
+	}
+
+	@DeleteMapping("/{id}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<AppResponse> deleteSoft(@PathVariable UUID id,
+			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+		service.delete(id, customUserDetails.getUser());
+		return ResponseEntity.noContent().build();
 	}
 }

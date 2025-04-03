@@ -1,0 +1,20 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# System
+*.log
+*.tmp
+
+#NeoVim
+server exited unexpectedly
+rest_nvim_result#Response
+src/main/resources/application.properties

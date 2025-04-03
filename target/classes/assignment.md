@@ -5,10 +5,11 @@
  - [x] log out
  - [x] refresh token
  - [x] admin seeder in dataInitializer
- - [-] `read` (CRUD) *Pagination & Filter*
- - [ ] `update` (CRUD)
- - [ ] `delete` (CRUD)
+ - [x] `read` (CRUD) *Pagination & Filter*
+ - [-] `update` (CRUD)
+ - [x] `delete` (CRUD)
  - [ ] change credentials *email, password etc*
+ - [ ] change role *admin, manager, employee etc*
 
 ## System
  - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*

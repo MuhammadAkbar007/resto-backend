@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -77,12 +78,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public AppResponse getUsers(String searchTerm, String firstName, String lastName, String email, String phoneNumber,
-			GeneralStatus status, RoleType role, LocalDateTime fromDate, LocalDateTime toDate, int page, int size,
-			String[] sort) {
+	public AppResponse getAllUsers(String searchTerm, String firstName, String lastName, String email,
+			String phoneNumber, GeneralStatus status, RoleType role, LocalDateTime fromDateTime,
+			LocalDateTime toDateTime, int page, int size, String[] sort) {
 
 		Pageable pageable = createPageable(page, size, sort);
-		Specification<User> spec = buildSpecification(searchTerm, email, phoneNumber, fromDate, toDate, status, role);
+		Specification<User> spec = buildSpecification(searchTerm, email, phoneNumber, fromDateTime, toDateTime, status,
+				role);
 
 		Page<User> usersPage = repository.findAll(spec, pageable);
 
@@ -97,6 +99,21 @@ public class UserServiceImpl implements UserService {
 				.message("Users retrieved successfully")
 				.data(paginationData)
 				.build();
+	}
+
+	@Override
+	@Transactional
+	public void delete(UUID id, User user) {
+		boolean isAdmin = hasAdminRole(user);
+
+		if (!isAdmin && !id.equals(user.getId()))
+			throw new AppBadRequestException("Wrong id " + id);
+
+		User deletingUser = repository.findById(id)
+				.orElseThrow(() -> new AppBadRequestException("user not found with id " + id));
+
+		deletingUser.setVisible(false);
+		repository.save(deletingUser);
 	}
 
 	/**
@@ -149,7 +166,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private Specification<User> buildSpecification(String searchTerm, String email, String phoneNumber,
-			LocalDateTime fromDate, LocalDateTime toDate, GeneralStatus status, RoleType role) {
+			LocalDateTime fromDateTime, LocalDateTime toDateTime, GeneralStatus status, RoleType role) {
 
 		return (root, query, criteriaBuilder) -> {
 			List<Predicate> predicates = new ArrayList<>();
@@ -171,14 +188,14 @@ public class UserServiceImpl implements UserService {
 				predicates.add(criteriaBuilder.equal(root.get("phoneNumber"), phoneNumber));
 
 			// Apply fromDate filter (e.g., createdAt should be >= fromDate)
-			if (fromDate != null) {
-				Instant fromInstant = fromDate.atZone(ZoneId.systemDefault()).toInstant();
+			if (fromDateTime != null) {
+				Instant fromInstant = fromDateTime.atZone(ZoneId.systemDefault()).toInstant();
 				predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), fromInstant));
 			}
 
 			// Apply toDate filter (e.g., createdAt should be <= toDate)
-			if (toDate != null) {
-				Instant toInstant = toDate.atZone(ZoneId.systemDefault()).toInstant();
+			if (toDateTime != null) {
+				Instant toInstant = toDateTime.atZone(ZoneId.systemDefault()).toInstant();
 				predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), toInstant));
 			}
 
@@ -198,11 +215,20 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	// TODO: make this dynamic or reconsider
 	private boolean isValidProperty(String property) {
 		List<String> validProperties = Arrays.asList("id", "firstName", "lastName", "email", "phoneNumber", "status",
 				"createdAt", "visible");
 
 		return validProperties.contains(property);
+	}
+
+	private boolean hasAdminRole(User user) {
+		Set<Role> roles = user.getRoles();
+
+		if (roles == null)
+			return false;
+
+		return roles.stream()
+				.anyMatch(role -> role.getRoleType() == RoleType.ROLE_ADMIN);
 	}
 }

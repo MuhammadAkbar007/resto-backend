@@ -26,31 +26,31 @@ public class AuthController {
 	private final AuthService service;
 
 	@PostMapping("/register")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterDto dto) {
+	public ResponseEntity<AppResponse> registerUser(@Valid @RequestBody RegisterDto dto) {
 		AppResponse response = service.registerUser(dto);
 		return ResponseEntity.status(201).body(response);
 	}
 
 	@PostMapping("/verify-otp")
-	public ResponseEntity<?> verifyOtp(@Valid @RequestBody OtpVerificationDto dto) {
+	public ResponseEntity<AppResponse> verifyOtp(@Valid @RequestBody OtpVerificationDto dto) {
 		AppResponse response = service.verifyOtp(dto);
 		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> loginToSystem(@Valid @RequestBody LogInDto dto) {
+	public ResponseEntity<AppResponse> loginToSystem(@Valid @RequestBody LogInDto dto) {
 		AppResponse response = service.logIn(dto);
 		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/refresh")
-	public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenRequestDto dto) {
+	public ResponseEntity<AppResponse> refreshToken(@Valid @RequestBody RefreshTokenRequestDto dto) {
 		AppResponse response = service.refreshToken(dto);
 		return ResponseEntity.ok(response);
 	}
 
 	@PostMapping("/logout")
-	public ResponseEntity<?> logout(@Valid @RequestBody RefreshTokenRequestDto dto) {
+	public ResponseEntity<AppResponse> logout(@Valid @RequestBody RefreshTokenRequestDto dto) {
 		service.logout(dto);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

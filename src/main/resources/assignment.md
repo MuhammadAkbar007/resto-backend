@@ -6,8 +6,8 @@
  - [x] refresh token
  - [x] admin seeder in dataInitializer
  - [x] `read` (CRUD) *Pagination & Filter*
- - [ ] `update` (CRUD)
- - [-] `delete` (CRUD)
+ - [-] `update` (CRUD)
+ - [x] `delete` (CRUD)
  - [ ] change credentials *email, password etc*
  - [ ] change role *admin, manager, employee etc*
 
