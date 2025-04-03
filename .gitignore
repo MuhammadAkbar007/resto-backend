@@ -17,4 +17,6 @@ pom.xml.releaseBackup
 #NeoVim
 server exited unexpectedly
 rest_nvim_result#Response
+
+# Application properties
 src/main/resources/application.properties
