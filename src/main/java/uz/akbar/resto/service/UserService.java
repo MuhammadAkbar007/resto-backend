@@ -7,6 +7,7 @@ import uz.akbar.resto.entity.User;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.payload.AppResponse;
+import uz.akbar.resto.payload.request.UpdateUserRequestDto;
 
 public interface UserService {
 
@@ -19,4 +20,6 @@ public interface UserService {
 			int size, String[] sort);
 
 	void delete(UUID id, User user);
+
+	AppResponse update(UUID id, UpdateUserRequestDto dto, User user);
 }

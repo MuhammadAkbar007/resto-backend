@@ -6,10 +6,11 @@
  - [x] refresh token
  - [x] admin seeder in dataInitializer
  - [x] `read` (CRUD) *Pagination & Filter*
- - [-] `update` (CRUD)
+ - [x] `update` (CRUD)
  - [x] `delete` (CRUD)
- - [ ] change credentials *email, password etc*
- - [ ] change role *admin, manager, employee etc*
+ - [ ] admin changes role *admin, manager, employee etc*
+ - [ ] admin changes user status *active, block, deleted etc*
+ - [-] user changes his/her profile picture
 
 ## System
  - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*

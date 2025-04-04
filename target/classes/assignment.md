@@ -10,6 +10,8 @@
  - [x] `delete` (CRUD)
  - [ ] change credentials *email, password etc*
  - [ ] change role *admin, manager, employee etc*
+ - [ ] admin changes user status *active, block, deleted etc*
+ - [ ] user changes his/her profile picture
 
 ## System
  - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*

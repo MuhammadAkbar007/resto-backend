@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.util.StringUtils;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
@@ -31,6 +33,7 @@ import uz.akbar.resto.exception.AppBadRequestException;
 import uz.akbar.resto.mapper.UserMapper;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.PaginationData;
+import uz.akbar.resto.payload.request.UpdateUserRequestDto;
 import uz.akbar.resto.payload.response.UserDetailsDto;
 import uz.akbar.resto.payload.response.UserDto;
 import uz.akbar.resto.repository.UserRepository;
@@ -42,6 +45,7 @@ public class UserServiceImpl implements UserService {
 
 	private final UserRepository repository;
 	private final UserMapper mapper;
+	private final BCryptPasswordEncoder passwordEncoder;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -114,6 +118,53 @@ public class UserServiceImpl implements UserService {
 
 		deletingUser.setVisible(false);
 		repository.save(deletingUser);
+	}
+
+	@Override
+	@Transactional
+	public AppResponse update(UUID id, UpdateUserRequestDto dto, User user) {
+		String email = dto.getEmail();
+		String phoneNumber = dto.getPhoneNumber();
+
+		User editingUser = repository.findByIdAndVisibleTrue(id)
+				.orElseThrow(() -> new AppBadRequestException("User not found with id: " + id));
+
+		boolean isAdmin = hasAdminRole(user);
+
+		if (!isAdmin && !id.equals(user.getId()))
+			throw new AppBadRequestException("Wrong id: " + id);
+
+		if (StringUtils.hasText(email)) {
+			if (repository.existsByEmail(email))
+				throw new AppBadRequestException("user already exists with email: " + email);
+
+			editingUser.setEmail(email);
+		}
+
+		if (StringUtils.hasText(phoneNumber)) {
+			if (repository.existsByEmail(phoneNumber))
+				throw new AppBadRequestException("user already exists with phoneNumber: " + phoneNumber);
+
+			editingUser.setPhoneNumber(phoneNumber);
+		}
+
+		if (StringUtils.hasText(dto.getFirstName()))
+			editingUser.setFirstName(dto.getFirstName());
+
+		if (StringUtils.hasText(dto.getLastName()))
+			editingUser.setLastName(dto.getLastName());
+
+		if (StringUtils.hasText(dto.getPassword()))
+			editingUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+		User saved = repository.save(editingUser);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("user successfully updated")
+				.data(isAdmin ? mapper.toUserDetailsDto(saved) : mapper.toUserDto(saved))
+				.build();
+
 	}
 
 	/**
@@ -231,4 +282,5 @@ public class UserServiceImpl implements UserService {
 		return roles.stream()
 				.anyMatch(role -> role.getRoleType() == RoleType.ROLE_ADMIN);
 	}
+
 }

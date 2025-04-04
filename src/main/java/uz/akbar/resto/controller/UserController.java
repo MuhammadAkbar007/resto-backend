@@ -9,14 +9,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.payload.AppResponse;
+import uz.akbar.resto.payload.request.UpdateUserRequestDto;
 import uz.akbar.resto.security.CustomUserDetails;
 import uz.akbar.resto.service.UserService;
 import uz.akbar.resto.utils.Utils;
@@ -91,6 +95,15 @@ public class UserController {
 		AppResponse response = service.getAllUsers(searchTerm, firstName, lastName, email, phoneNumber, status, role,
 				fromDateTime, toDateTime, page, size, sort);
 
+		return ResponseEntity.ok(response);
+	}
+
+	@PutMapping("/{id}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<AppResponse> update(@PathVariable UUID id, @Valid @RequestBody UpdateUserRequestDto dto,
+			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+		AppResponse response = service.update(id, dto, customUserDetails.getUser());
 		return ResponseEntity.ok(response);
 	}
 

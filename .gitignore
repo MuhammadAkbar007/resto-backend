@@ -15,6 +15,7 @@ pom.xml.releaseBackup
 *.tmp
 
 #NeoVim
+scratch
 server exited unexpectedly
 rest_nvim_result#Response
 

@@ -57,3 +57,21 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwuc
 ### Soft delete user himself/herself
 DELETE http://localhost:8080/api/v1/user/3e673bdd-a078-4bc7-a427-09963fed471c
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2JhcmpvbmRldjAwN0BnbWFpbC5jb20iLCJ1c2VySWQiOiIzZTY3M2JkZC1hMDc4LTRiYzctYTQyNy0wOTk2M2ZlZDQ3MWMiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9XSwiaWF0IjoxNzQzNjgxMTc2LCJleHAiOjE3NDM2ODQ3NzZ9.l5bOsGfm5QkJbJKY3p_cWbd0TDq9dd5dLZ4AQ_EQY_hZUSv4z9UPgOUZViKFwjymMomvnpjsXa0CJ1tZNT9Ndw
+
+### update any user -> ADMIN
+PUT http://localhost:8080/api/v1/user/3e673bdd-a078-4bc7-a427-09963fed471c
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9XSwiaWF0IjoxNzQzNzczMjY2LCJleHAiOjE3NDM3NzY4NjZ9.ScO0xwrscRIHOnqFceNq-BXb0IsIBjGIOAVIozb52G4va51rEFNflAlv6KwSac28jicIQeMOd8JA1RGSdVhk_g
+Content-Type: application/json
+
+{
+	"firstName": "Abdulloh"
+}
+
+### update user himself/herself
+PUT http://localhost:8080/api/v1/user/3e673bdd-a078-4bc7-a427-09963fed471c
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2JhcmpvbmRldjAwN0BnbWFpbC5jb20iLCJ1c2VySWQiOiIzZTY3M2JkZC1hMDc4LTRiYzctYTQyNy0wOTk2M2ZlZDQ3MWMiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9XSwiaWF0IjoxNzQzNzczMzg4LCJleHAiOjE3NDM3NzY5ODh9.-Lw3WixRb8rVzfR0KVlU0kIzLBvCPnr8lXMtWHTg61iGWrgHK3iez1L1x8c5asNg73gyviZH1fAkqE0i5_9X-g
+Content-Type: application/json
+
+{
+	"lastName": "Ali"
+}
