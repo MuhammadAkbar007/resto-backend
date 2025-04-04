@@ -3,6 +3,8 @@ package uz.akbar.resto.service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import uz.akbar.resto.entity.User;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.enums.RoleType;
@@ -22,4 +24,6 @@ public interface UserService {
 	void delete(UUID id, User user);
 
 	AppResponse update(UUID id, UpdateUserRequestDto dto, User user);
+
+	AppResponse updateUserPhoto(UUID userId, MultipartFile photo, User user);
 }

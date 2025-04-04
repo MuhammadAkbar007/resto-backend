@@ -19,11 +19,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
@@ -37,6 +37,7 @@ import uz.akbar.resto.payload.request.UpdateUserRequestDto;
 import uz.akbar.resto.payload.response.UserDetailsDto;
 import uz.akbar.resto.payload.response.UserDto;
 import uz.akbar.resto.repository.UserRepository;
+import uz.akbar.resto.service.AttachmentService;
 import uz.akbar.resto.service.UserService;
 
 @RequiredArgsConstructor
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository repository;
 	private final UserMapper mapper;
 	private final BCryptPasswordEncoder passwordEncoder;
+	private final AttachmentService attachmentService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -165,6 +167,36 @@ public class UserServiceImpl implements UserService {
 				.data(isAdmin ? mapper.toUserDetailsDto(saved) : mapper.toUserDto(saved))
 				.build();
 
+	}
+
+	/**
+	 * Update a user's profile photo
+	 * 
+	 * @param userId      ID of the user to update (if null, updates the current
+	 *                    user)
+	 * @param photoFile   the new photo file
+	 * @param currentUser the currently authenticated user
+	 * @return AppResponse with the updated user information
+	 * @throws IOException if there's an error processing the file
+	 */
+	@Override
+	public AppResponse updateUserPhoto(UUID userId, MultipartFile photo, User currentUser) {
+		User userToUpdate;
+		boolean isAdmin = hasAdminRole(currentUser);
+
+		if (userId == null) {
+			userToUpdate = currentUser;
+		} else {
+			if (!isAdmin && !userId.equals(currentUser.getId()))
+				throw new AppBadRequestException("You don't have permission to update another person's photo");
+
+			userToUpdate = repository.findByIdAndVisibleTrue(userId)
+					.orElseThrow(() -> new AppBadRequestException("User not found with id: " + userId));
+		}
+
+		// TODO: delete old photo attachment
+
+		return null;
 	}
 
 	/**
