@@ -25,10 +25,12 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import uz.akbar.resto.entity.Attachment;
 import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.enums.RoleType;
+import uz.akbar.resto.enums.StorageType;
 import uz.akbar.resto.exception.AppBadRequestException;
 import uz.akbar.resto.mapper.UserMapper;
 import uz.akbar.resto.payload.AppResponse;
@@ -174,7 +176,7 @@ public class UserServiceImpl implements UserService {
 	 * 
 	 * @param userId      ID of the user to update (if null, updates the current
 	 *                    user)
-	 * @param photoFile   the new photo file
+	 * @param photo       the new photo file
 	 * @param currentUser the currently authenticated user
 	 * @return AppResponse with the updated user information
 	 * @throws IOException if there's an error processing the file
@@ -194,9 +196,26 @@ public class UserServiceImpl implements UserService {
 					.orElseThrow(() -> new AppBadRequestException("User not found with id: " + userId));
 		}
 
-		// TODO: delete old photo attachment
+		if (photo.isEmpty())
+			throw new AppBadRequestException("Failed to store an empty file");
 
-		return null;
+		String contentType = photo.getContentType();
+		if (contentType == null || !contentType.startsWith("image/"))
+			throw new AppBadRequestException("Only image files are allowed");
+
+		if (userToUpdate.getPhoto() != null)
+			attachmentService.deleteAttachment(userToUpdate.getPhoto());
+
+		Attachment savedAttachment = attachmentService.saveAttachment(photo, StorageType.FILE_SYSTEM);
+		userToUpdate.setPhoto(savedAttachment);
+
+		User savedUser = repository.save(userToUpdate);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Profile photo updated successfully")
+				.data(isAdmin ? mapper.toUserDetailsDto(savedUser) : mapper.toUserDto(savedUser))
+				.build();
 	}
 
 	/**

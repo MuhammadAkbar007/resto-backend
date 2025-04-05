@@ -2,8 +2,10 @@ package uz.akbar.resto.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import uz.akbar.resto.exception.AppBadRequestException;
+import uz.akbar.resto.exception.FileDeletionException;
 import uz.akbar.resto.exception.RefreshTokenException;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -17,7 +19,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,13 +39,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		System.err.println("*** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ");
 		e.printStackTrace();
 		return ResponseEntity.internalServerError().body(e.getMessage());
-		// return ResponseEntity.internalServerError().body("internal server error");
+		// return ResponseEntity.internalServerError().body("internal server error: " +
+		// e.getMessage());
 	}
 
 	@ExceptionHandler(AppBadRequestException.class)
 	public ResponseEntity<?> handle(AppBadRequestException e) {
 		// e.printStackTrace();
 		return ResponseEntity.badRequest().body(e.getMessage());
+	}
+
+	@ExceptionHandler(FileDeletionException.class)
+	public ResponseEntity<?> handle(FileDeletionException e) {
+		return ResponseEntity.internalServerError().body(e.getMessage());
+	}
+
+	@ExceptionHandler(FileUploadException.class)
+	public ResponseEntity<?> handle(FileUploadException e) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("timestamp", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
+		// TODO: reconsider status here: internalServerError or badRequest
+		body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+		body.put("error", "File upload failed");
+		body.put("message", e.getMessage());
+
+		return ResponseEntity.internalServerError().body(body);
 	}
 
 	// org.springframework.security.authentication.DisabledException

@@ -39,7 +39,7 @@ public class Attachment extends AbsUUIDEntity {
 	@Column(nullable = false)
 	private String extension; /* pdf, png */
 
-	// @Column(unique = true)
+	// @Column(unique = true) -> because of default images
 	private String filePath; /* fs url (only for StorageType.FILE_SYSTEM) */
 
 	@Column(nullable = false)

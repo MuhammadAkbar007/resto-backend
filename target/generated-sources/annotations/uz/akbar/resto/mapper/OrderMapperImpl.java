@@ -7,8 +7,8 @@ import uz.akbar.resto.payload.response.OrderDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-04-04T18:27:22+0500",
-    comments = "version: 1.6.3, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
+    date = "2025-04-05T16:49:45+0500",
+    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
@@ -21,11 +21,11 @@ public class OrderMapperImpl implements OrderMapper {
 
         OrderDto.OrderDtoBuilder orderDto = OrderDto.builder();
 
+        orderDto.discount( order.getDiscount() );
         orderDto.id( order.getId() );
         orderDto.number( order.getNumber() );
-        orderDto.discount( order.getDiscount() );
-        orderDto.totalPrice( order.getTotalPrice() );
         orderDto.orderStatus( order.getOrderStatus() );
+        orderDto.totalPrice( order.getTotalPrice() );
 
         return orderDto.build();
     }
