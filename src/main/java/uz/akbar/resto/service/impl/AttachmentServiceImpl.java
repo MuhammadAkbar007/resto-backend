@@ -99,7 +99,9 @@ public class AttachmentServiceImpl implements AttachmentService {
 		String rawFilename = file.getOriginalFilename();
 		if (!StringUtils.hasText(rawFilename))
 			// TODO: consider giving status code for exception constructor
-			throw new FileUploadException("Uploaded file is empty");
+
+			throw new AppBadRequestException("delete this line");
+		// throw new FileUploadException("Uploaded file is empty");
 
 		String originalFilename = StringUtils.cleanPath(rawFilename);
 		String extension = getFileExtension(originalFilename);

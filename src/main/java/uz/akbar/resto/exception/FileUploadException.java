@@ -1,12 +1,15 @@
 package uz.akbar.resto.exception;
 
-public class FileUploadException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-	public FileUploadException(String message) {
-		super(message);
+public class FileUploadException extends ResponseStatusException {
+
+	public FileUploadException(HttpStatus status, String message) {
+		super(status, message);
 	}
 
-	public FileUploadException(String message, Throwable cause) {
-		super(message, cause);
+	public FileUploadException(HttpStatus status, String message, Throwable cause) {
+		super(status, message, cause);
 	}
 }

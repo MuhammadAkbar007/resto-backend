@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		if (StringUtils.hasText(phoneNumber)) {
-			if (repository.existsByEmail(phoneNumber))
+			if (repository.existsByPhoneNumber(phoneNumber))
 				throw new AppBadRequestException("user already exists with phoneNumber: " + phoneNumber);
 
 			editingUser.setPhoneNumber(phoneNumber);
