@@ -21,3 +21,6 @@ rest_nvim_result#Response
 
 # Application properties
 src/main/resources/application.properties
+
+# Uploads folder to store images in FS
+uploads/

@@ -76,3 +76,15 @@ Content-Type: application/json
 {
 	"lastName": "Ali"
 }
+
+### Update current user's photo as an admin 3e673bdd-a078-4bc7-a427-09963fed471c
+curl -X POST \
+  -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ1NzU0Njc2LCJleHAiOjE3NDU3NTgyNzZ9.9rS9OMjrRVwwWnr-KStYi_lRB_zmHBbiG2HlsJZ3IHVs_M321mBBWeJLbI-OMb4emBb9SIViin0CCCRg_Ubw6Q" \
+  -F "photo=@/home/akbar/Pictures/desktop_wallpapers/dark/lambo.jpg" \
+  http://localhost:8080/api/v1/user/photo
+
+### Update another user's photo as an admin
+curl -X POST \
+  -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2JhcmpvbmRldjAwN0BnbWFpbC5jb20iLCJ1c2VySWQiOiIzZTY3M2JkZC1hMDc4LTRiYzctYTQyNy0wOTk2M2ZlZDQ3MWMiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9XSwiaWF0IjoxNzQ1NzU1NTIzLCJleHAiOjE3NDU3NTkxMjN9.hj-bn-201JphwIHMnBTXE6NJ1qii9obnYgsJA-rJBj3uv5cJmn8-a3fFEQkz-vV4XINXyOQmAO20L2l4RsZYaA" \
+  -F "photo=@/home/akbar/Pictures/desktop_wallpapers/dark/hyundai.jpg" \
+  'http://localhost:8080/api/v1/user/photo?userId=3e673bdd-a078-4bc7-a427-09963fed471c'

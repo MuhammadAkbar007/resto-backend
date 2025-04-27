@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +26,14 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
-import uz.akbar.resto.entity.Attachment;
 import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
+import uz.akbar.resto.entity.Attachment;
 import uz.akbar.resto.enums.GeneralStatus;
-import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.enums.StorageType;
+import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.exception.AppBadRequestException;
+import uz.akbar.resto.exception.FileUploadException;
 import uz.akbar.resto.mapper.UserMapper;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.PaginationData;
@@ -179,9 +181,9 @@ public class UserServiceImpl implements UserService {
 	 * @param photo       the new photo file
 	 * @param currentUser the currently authenticated user
 	 * @return AppResponse with the updated user information
-	 * @throws IOException if there's an error processing the file
 	 */
 	@Override
+	@Transactional
 	public AppResponse updateUserPhoto(UUID userId, MultipartFile photo, User currentUser) {
 		User userToUpdate;
 		boolean isAdmin = hasAdminRole(currentUser);
@@ -197,14 +199,14 @@ public class UserServiceImpl implements UserService {
 		}
 
 		if (photo.isEmpty())
-			throw new AppBadRequestException("Failed to store an empty file");
+			throw new FileUploadException(HttpStatus.BAD_REQUEST, "Failed to store an empty file");
 
 		String contentType = photo.getContentType();
 		if (contentType == null || !contentType.startsWith("image/"))
-			throw new AppBadRequestException("Only image files are allowed");
+			throw new FileUploadException(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Only image files are allowed");
 
 		if (userToUpdate.getPhoto() != null)
-			attachmentService.deleteAttachment(userToUpdate.getPhoto());
+			attachmentService.deleteAttachment(userToUpdate.getPhoto().getId());
 
 		Attachment savedAttachment = attachmentService.saveAttachment(photo, StorageType.FILE_SYSTEM);
 		userToUpdate.setPhoto(savedAttachment);

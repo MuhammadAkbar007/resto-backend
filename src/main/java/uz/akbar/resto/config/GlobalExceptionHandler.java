@@ -73,6 +73,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ ResponseStatusException.class, FileUploadException.class })
 	public ResponseEntity<ProblemDetail> handleResponseStatusException(ResponseStatusException e) {
 		HttpStatus status = (HttpStatus) e.getStatusCode();
+
+		if (status.equals(HttpStatus.INTERNAL_SERVER_ERROR))
+			e.printStackTrace();
+
 		return createErrorResponse(status, e.getReason());
 	}
 

@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ### get any user's details -> ADMIN
 GET http://localhost:8080/api/v1/user/f84fb107-6c79-4c24-abd1-42d01fd6733b
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9XSwiaWF0IjoxNzQzOTQ1MTY1LCJleHAiOjE3NDM5NDg3NjV9.0ftoMfZLhVdg4aft1s3i6gqKxX_a6DYmuQGHWpl8cH_0f7Bws5XWY8mkODfigdgGvc-Br045sQwsKN4W9XRorQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQzOTQ1MjM5LCJleHAiOjE3NDM5NDg4Mzl9.cIfWXOA7_yRa24sNUq7SNZXYLaVx0VMG8tHTw-sUZ6NY5Q8dD41lUp6yFVOO26vX4-99jxOoiIJRKtpDkx600w
 
 ### get any user's details -> ADMIN
 GET http://localhost:8080/api/v1/user/me
@@ -76,3 +76,15 @@ Content-Type: application/json
 {
 	"lastName": "Ali"
 }
+
+### Update current user's photo
+POST http://localhost:8080/api/v1/user/photo
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2JhcmpvbmRldjAwN0BnbWFpbC5jb20iLCJ1c2VySWQiOiIzZTY3M2JkZC1hMDc4LTRiYzctYTQyNy0wOTk2M2ZlZDQ3MWMiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9XSwiaWF0IjoxNzQ0MTg3OTEwLCJleHAiOjE3NDQxOTE1MTB9.7X6bspf-IiEUuNqvnISTk_Xq1vOW3Iq388M41heo2qEhnUndu125ZaCDFqJzBtK9hMDPe72n0OdvWk2XUUcyJg
+Content-Type: multipart/form-data
+
+--boundary
+Content-Disposition: form-data; name="photo"; filename="image.jpg"
+Content-Type: image/jpeg
+
+< /home/akbar/Pictures/desktop_wallpapers/other/rosomaxaInFuneral.jpg
+--boundary--

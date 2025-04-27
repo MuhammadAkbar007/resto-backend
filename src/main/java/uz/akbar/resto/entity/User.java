@@ -52,7 +52,7 @@ public class User extends AbsUUIDEntity {
 	@Enumerated(EnumType.STRING)
 	private GeneralStatus status;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Attachment photo;
 
 	@Builder.Default

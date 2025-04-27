@@ -9,8 +9,8 @@
  - [x] `update` (CRUD)
  - [x] `delete` (CRUD)
  - [ ] admin changes role *admin, manager, employee etc*
- - [ ] admin changes user status *active, block, deleted etc*
- - [-] user changes his/her profile picture
+ - [-] admin changes user status *active, block, deleted etc*
+ - [x] user changes his/her profile picture
 
 ## System
  - [ ] change *RuntimeException* handler in *GlobalExceptionHandler*
