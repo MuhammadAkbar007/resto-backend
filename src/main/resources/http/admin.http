@@ -1,0 +1,23 @@
+### Login as ADMIN
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+	"email": "fotismenos007@mail.ru",
+	"password": "root123"
+}
+
+### Login as CUSTOMER
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+	"email": "akbarjondev007@gmail.com",
+	"password": "root123"
+}
+
+##################################################################################################################################################################
+
+### change user status -> ACTIVE || BLOCK
+PUT http://localhost:8080/api/v1/admin/block/3e673bdd-a078-4bc7-a427-09963fed471c?status=ACTIVE
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9XSwiaWF0IjoxNzQ2MzY4ODU0LCJleHAiOjE3NDYzNzI0NTR9.dBJdHQvbuAMHKQmXpDJlW6RfBx9zYwLAGDDM89t8qEqaBkkNs8MdOWQqCnpr_I2yg5fZGN_KfpMGmXW5cyfd5g

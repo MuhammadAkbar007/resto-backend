@@ -8,8 +8,8 @@
  - [x] `read` (CRUD) *Pagination & Filter*
  - [x] `update` (CRUD)
  - [x] `delete` (CRUD)
- - [ ] admin changes role *admin, manager, employee etc*
- - [-] admin changes user status *active, block, deleted etc*
+ - [-] admin changes role *admin, manager, employee etc*
+ - [x] admin changes user status *active, block, deleted etc*
  - [x] user changes his/her profile picture
 
 ## System

@@ -144,7 +144,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 			try {
 				attachment.setContent(file.getBytes());
 			} catch (IOException e) {
-				throw new FileUploadException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to store file to file system",
+				throw new FileUploadException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to store file to database",
 						e);
 			}
 		} else {

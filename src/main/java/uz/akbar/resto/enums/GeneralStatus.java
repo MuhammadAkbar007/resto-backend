@@ -5,5 +5,4 @@ public enum GeneralStatus {
 	IN_REGISTRATION,
 	ACTIVE,
 	BLOCK,
-	DELETED
 }
