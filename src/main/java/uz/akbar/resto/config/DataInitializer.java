@@ -48,7 +48,29 @@ public class DataInitializer {
 			AttachmentService attachmentService) {
 		return args -> {
 
-			// create customerRole if not exists
+			// create employeeRole if not exists
+			if (!roleRepository.existsByRoleType(RoleType.ROLE_EMPLOYEE)) {
+				roleRepository.save(
+						Role.builder()
+								.roleType(RoleType.ROLE_EMPLOYEE)
+								.description("Employee role")
+								.visible(true)
+								.createdAt(Instant.now())
+								.build());
+			}
+
+			// create managerRole if not exists
+			if (!roleRepository.existsByRoleType(RoleType.ROLE_MANAGER)) {
+				roleRepository.save(
+						Role.builder()
+								.roleType(RoleType.ROLE_MANAGER)
+								.description("Manager role")
+								.visible(true)
+								.createdAt(Instant.now())
+								.build());
+			}
+
+			// create customerRole if not exists to attach admin&user
 			Role customerRole = roleRepository.findByRoleType(RoleType.ROLE_CUSTOMER)
 					.orElseGet(() -> {
 						Role role = Role.builder()
@@ -61,7 +83,7 @@ public class DataInitializer {
 						return roleRepository.save(role);
 					});
 
-			// create adminRole if not exists
+			// create adminRole if not exists to attach admin&user
 			Role adminRole = roleRepository.findByRoleType(RoleType.ROLE_ADMIN)
 					.orElseGet(() -> {
 						Role role = Role.builder()
@@ -74,7 +96,7 @@ public class DataInitializer {
 						return roleRepository.save(role);
 					});
 
-			// create admin & user User if not exists
+			// create admin&user User if not exists
 			if (!userRepository.existsByEmailOrPhoneNumber(adminEmail, adminPhoneNumber)) {
 				User adminUser = User.builder()
 						.firstName(adminFirstName)

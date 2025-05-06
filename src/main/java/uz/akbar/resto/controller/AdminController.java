@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.enums.GeneralStatus;
+import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.security.CustomUserDetails;
 import uz.akbar.resto.service.AdminService;
@@ -37,6 +38,21 @@ public class AdminController {
 			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
 		AppResponse response = service.blockUnblockUser(userId, status, customUserDetails.getUserId());
+		return ResponseEntity.ok(response);
+	}
+
+	/*
+	 * /api/v1/admin/assign/userId?roleType=ROLE_CUSTOMER
+	 * /api/v1/admin/assign/userId?roleType=ROLE_MANAGER
+	 * /api/v1/admin/assign/userId?roleType=ROLE_EMPLOYEE
+	 * /api/v1/admin/assign/userId?roleType=ROLE_ADMIN
+	 */
+	@PutMapping("/assign/{userId}")
+	public ResponseEntity<AppResponse> assignRole(@PathVariable UUID userId,
+			@RequestParam(required = true) RoleType roleType,
+			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+		AppResponse response = service.assignRole(userId, roleType, customUserDetails.getUserId());
 		return ResponseEntity.ok(response);
 	}
 }

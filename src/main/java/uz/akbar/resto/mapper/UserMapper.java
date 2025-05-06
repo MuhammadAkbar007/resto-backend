@@ -17,9 +17,11 @@ import uz.akbar.resto.payload.response.UserDto;
 @Mapper(componentModel = "spring", uses = { RoleMapper.class, OrderMapper.class })
 public interface UserMapper {
 
+	// for user
 	@Mapping(target = "photoId", source = "photo", qualifiedByName = "attachmentToId")
 	UserDto toUserDto(User user);
 
+	// for admin
 	@Mapping(target = "registrationDate", source = "createdAt")
 	@Mapping(target = "photoId", source = "photo", qualifiedByName = "attachmentToId")
 	UserDetailsDto toUserDetailsDto(User user);
