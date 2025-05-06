@@ -9,7 +9,7 @@
  - [x] `update` (CRUD)
  - [x] `delete` (CRUD)
  - [x] admin assign role *admin, manager, employee etc*
- - [-] admin revoke role *admin, manager, employee etc*
+ - [x] admin revoke role *admin, manager, employee etc*
  - [x] admin changes user status *active, block, deleted etc*
  - [x] user changes his/her profile picture
 

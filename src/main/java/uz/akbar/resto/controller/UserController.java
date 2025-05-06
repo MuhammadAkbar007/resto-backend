@@ -59,7 +59,8 @@ public class UserController {
 	 * @return ResponseEntity<?>
 	 */
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+	// @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<AppResponse> getUserById(@PathVariable UUID id) {
 		AppResponse response = service.getUserById(id);
 		return ResponseEntity.ok(response);
@@ -98,7 +99,8 @@ public class UserController {
 	 * @return AppResponse with users list
 	 */
 	@GetMapping("/all")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+	// @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<AppResponse> getUsers(
 			@RequestParam(required = false) String searchTerm, // for general search
 			@RequestParam(required = false) String firstName, // for filter
@@ -129,8 +131,9 @@ public class UserController {
 	}
 
 	@DeleteMapping("/{id}")
-	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<AppResponse> deleteSoft(@PathVariable UUID id,
+	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+	// @PreAuthorize("isAuthenticated()")
+	public ResponseEntity<AppResponse> deleteSoftly(@PathVariable UUID id,
 			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
 		service.delete(id, customUserDetails.getUser());
