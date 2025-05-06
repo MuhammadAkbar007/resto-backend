@@ -12,4 +12,6 @@ public interface AdminService {
 
 	AppResponse assignRole(UUID userId, RoleType roleType, UUID adminId);
 
+	AppResponse revokeRole(UUID userId, RoleType roleType, UUID adminId);
+
 }

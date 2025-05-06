@@ -29,7 +29,6 @@ public class AdminController {
 
 	/*
 	 * /api/v1/admin/block/userId?status=BLOCK
-	 * or
 	 * /api/v1/admin/block/userId?status=ACTIVE
 	 */
 	@PutMapping("/block/{userId}")
@@ -42,7 +41,6 @@ public class AdminController {
 	}
 
 	/*
-	 * /api/v1/admin/assign/userId?roleType=ROLE_CUSTOMER
 	 * /api/v1/admin/assign/userId?roleType=ROLE_MANAGER
 	 * /api/v1/admin/assign/userId?roleType=ROLE_EMPLOYEE
 	 * /api/v1/admin/assign/userId?roleType=ROLE_ADMIN
@@ -53,6 +51,20 @@ public class AdminController {
 			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
 		AppResponse response = service.assignRole(userId, roleType, customUserDetails.getUserId());
+		return ResponseEntity.ok(response);
+	}
+
+	/*
+	 * /api/v1/admin/revoke/userId?roleType=ROLE_MANAGER
+	 * /api/v1/admin/revoke/userId?roleType=ROLE_EMPLOYEE
+	 * /api/v1/admin/revoke/userId?roleType=ROLE_ADMIN
+	 */
+	@PutMapping("/revoke/{userId}")
+	public ResponseEntity<AppResponse> revokeRole(@PathVariable UUID userId,
+			@RequestParam(required = true) RoleType roleType,
+			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+		AppResponse response = service.revokeRole(userId, roleType, customUserDetails.getUserId());
 		return ResponseEntity.ok(response);
 	}
 }

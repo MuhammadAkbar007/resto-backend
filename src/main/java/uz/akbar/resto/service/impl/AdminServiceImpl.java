@@ -77,4 +77,31 @@ public class AdminServiceImpl implements AdminService {
 				.build();
 	}
 
+	@Override
+	public AppResponse revokeRole(UUID userId, RoleType roleType, UUID adminId) {
+		if (roleType.equals(RoleType.ROLE_CUSTOMER))
+			throw new AppBadRequestException("Can't revoke default role: " + roleType);
+
+		if (userId.equals(adminId))
+			throw new AppBadRequestException("Wrong id: " + adminId);
+
+		User user = repository.findByIdAndVisibleTrue(userId)
+				.orElseThrow(() -> new AppBadRequestException("User not found with id: " + userId));
+
+		Role role = roleRepository.findByRoleType(roleType)
+				.orElseThrow(() -> new AppBadRequestException("Role not found: " + roleType));
+
+		if (!user.getRoles().contains(role))
+			throw new AppBadRequestException("User does not have this role: " + roleType);
+
+		user.getRoles().remove(role);
+		User saved = repository.save(user);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Role successfully revoked: " + roleType)
+				.data(mapper.toUserDetailsDto(saved))
+				.build();
+	}
+
 }

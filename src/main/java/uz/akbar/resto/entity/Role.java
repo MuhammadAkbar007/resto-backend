@@ -1,11 +1,13 @@
 package uz.akbar.resto.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToMany;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +16,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import uz.akbar.resto.entity.template.AbsLongEntity;
 import uz.akbar.resto.enums.RoleType;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /** Role */
 @SuperBuilder
