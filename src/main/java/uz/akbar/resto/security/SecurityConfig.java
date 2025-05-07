@@ -3,6 +3,7 @@ package uz.akbar.resto.security;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.security.jwt.JwtAuthenticationEntryPoint;
 import uz.akbar.resto.security.jwt.JwtAuthenticationFilter;
+import uz.akbar.resto.utils.Utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,7 +38,7 @@ public class SecurityConfig {
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	public static final String[] AUTH_WHITELIST = {
-			"/api/v1/auth/*",
+			Utils.BASE_URL + "/auth/*",
 	};
 
 	@Bean
@@ -64,8 +66,11 @@ public class SecurityConfig {
 
 		http.httpBasic(Customizer.withDefaults());
 
+		http.csrf(csrf -> csrf.ignoringRequestMatchers(Utils.BASE_URL + "/attach/upload"));
 		// http.csrf(Customizer.withDefaults()); // csrf yoqilgan
 		http.csrf(AbstractHttpConfigurer::disable); // csrf o'chirilgan
+
+		http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.cors(
 				httpSecurityCorsConfigurer -> { // cors konfiguratsiya qilingan

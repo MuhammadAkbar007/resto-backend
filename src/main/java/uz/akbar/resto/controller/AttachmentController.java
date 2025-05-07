@@ -37,6 +37,11 @@ public class AttachmentController {
 		return service.openAttachment(id);
 	}
 
+	@GetMapping("/open/{id}/thumbnail")
+	public ResponseEntity<Resource> openThumbnail(@PathVariable UUID id) {
+		return service.openThumbnail(id);
+	}
+
 	@GetMapping("/download/{id}")
 	public ResponseEntity<Resource> download(@PathVariable UUID id) {
 		return service.downloadAttachment(id);

@@ -26,4 +26,6 @@ public interface AttachmentService {
 	ResponseEntity<Resource> openAttachment(UUID id);
 
 	ResponseEntity<Resource> downloadAttachment(UUID id);
+
+	ResponseEntity<Resource> openThumbnail(UUID idOfOriginal);
 }

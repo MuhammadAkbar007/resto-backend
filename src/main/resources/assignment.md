@@ -1,7 +1,8 @@
 # Functionality
 ## Attachment
  - [x] create
- - [x] open
+ - [x] open original
+ - [x] open thumbnail
  - [x] download
  - [x] delete
 
