@@ -21,8 +21,14 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
@@ -32,8 +38,12 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.Attachment;
 import uz.akbar.resto.enums.StorageType;
+import uz.akbar.resto.exception.AppBadRequestException;
 import uz.akbar.resto.exception.FileDeletionException;
 import uz.akbar.resto.exception.FileUploadException;
+import uz.akbar.resto.exception.ResourceNotFoundException;
+import uz.akbar.resto.mapper.AttachmentMapper;
+import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.repository.AttachmentRepository;
 import uz.akbar.resto.service.AttachmentService;
 import uz.akbar.resto.utils.Utils;
@@ -46,6 +56,7 @@ import uz.akbar.resto.utils.Utils;
 public class AttachmentServiceImpl implements AttachmentService {
 
 	private final AttachmentRepository repository;
+	private final AttachmentMapper mapper;
 
 	@Value("${app.image.compression-quality:0.7}")
 	private float defaultCompressionQuality;
@@ -60,6 +71,64 @@ public class AttachmentServiceImpl implements AttachmentService {
 	private String defaultProfileImageName;
 
 	private String defaultProfileImagePath = defaultImageFolder + defaultProfileImageName;
+
+	@Override
+	public AppResponse createAttachment(MultipartFile file, StorageType fileSystem) {
+		Attachment saved = saveAttachment(file, fileSystem);
+		return AppResponse.builder()
+				.success(true)
+				.message("Attachment saved successfully")
+				.data(mapper.toDto(saved))
+				.build();
+	}
+
+	@Override
+	public ResponseEntity<Resource> openAttachment(UUID id) {
+		return serveAttachment(id, false);
+	}
+
+	@Override
+	public ResponseEntity<Resource> downloadAttachment(UUID id) {
+		return serveAttachment(id, true);
+	}
+
+	private ResponseEntity<Resource> serveAttachment(UUID id, boolean isDownload) {
+
+		Attachment attachment = repository.findById(id)
+				.orElseThrow(() -> new AppBadRequestException("Attachment not found with id: " + id));
+
+		String contentType = attachment.getContentType();
+		if (contentType == null || isDownload) {
+			contentType = "application/octet-stream";
+		}
+
+		try {
+			Resource resource = switch (attachment.getStorageType()) {
+				case DATABASE -> new ByteArrayResource(attachment.getContent());
+				case FILE_SYSTEM -> {
+					Path filePath = Paths.get(uploadDir, attachment.getFilePath()).normalize();
+					Resource fileResource = new FileSystemResource(filePath.toFile());
+					if (!fileResource.exists()) {
+						throw new ResourceNotFoundException("File not found: " + attachment.getFilePath());
+					}
+					yield fileResource;
+				}
+			};
+
+			ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok()
+					.contentType(MediaType.parseMediaType(contentType));
+
+			if (isDownload) {
+				responseBuilder.header(HttpHeaders.CONTENT_DISPOSITION,
+						"attachment; filename=\"" + attachment.getOriginalName() + "\"");
+			}
+
+			return responseBuilder.body(resource);
+
+		} catch (Exception e) {
+			throw new RuntimeException("Error serving attachment: " + e.getMessage(), e);
+		}
+	}
 
 	@Override
 	public Attachment getDefaultProfileImage() {

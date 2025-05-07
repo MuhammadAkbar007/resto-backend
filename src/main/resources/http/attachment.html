@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>File Upload/Download Test</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .card {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            button {
+                background-color: #4caf50;
+                border: none;
+                color: white;
+                padding: 10px 15px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+            input[type="text"],
+            input[type="file"] {
+                padding: 8px;
+                margin: 8px 0;
+                display: block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            img {
+                max-width: 100%;
+                max-height: 300px;
+                border: 1px solid #ddd;
+                margin-top: 10px;
+            }
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>File Upload/Download Test</h1>
+
+        <div class="card">
+            <h2>Authentication</h2>
+            <input type="text" id="token" placeholder="Enter your JWT token" />
+        </div>
+
+        <div class="card">
+            <h2>Upload File</h2>
+            <input type="file" id="fileInput" />
+            <button onclick="uploadFile()">Upload</button>
+            <div id="uploadResult"></div>
+        </div>
+
+        <div class="card">
+            <h2>View/Download File</h2>
+            <input type="text" id="fileId" placeholder="Enter file ID" />
+            <button onclick="viewFile()">View File</button>
+            <button onclick="downloadFile()">Download File</button>
+            <div id="filePreview" class="hidden">
+                <h3>Preview:</h3>
+                <img id="imagePreview" class="hidden" />
+                <div id="otherFileInfo"></div>
+            </div>
+        </div>
+
+        <script>
+            const API_BASE = "http://localhost:8080/api/v1/attach";
+
+            function getAuthHeader() {
+                const token = document.getElementById("token").value;
+                return token ? { Authorization: `Bearer ${token}` } : {};
+            }
+
+            async function uploadFile() {
+                const fileInput = document.getElementById("fileInput");
+                const resultDiv = document.getElementById("uploadResult");
+
+                if (!fileInput.files[0]) {
+                    resultDiv.innerHTML =
+                        '<p style="color: red">Please select a file</p>';
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append("file", fileInput.files[0]);
+
+                try {
+                    const response = await fetch(`${API_BASE}/upload`, {
+                        method: "POST",
+                        headers: getAuthHeader(),
+                        body: formData,
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        resultDiv.innerHTML = `
+                        <p style="color: green">Upload successful!</p>
+                        <p>File ID: ${result.data.id}</p>
+                        <button onclick="copyToClipboard('${result.data.id}')">Copy ID</button>
+                    `;
+                    } else {
+                        resultDiv.innerHTML = `<p style="color: red">Error: ${result.message || "Upload failed"}</p>`;
+                    }
+                } catch (error) {
+                    resultDiv.innerHTML = `<p style="color: red">Error: ${error.message}</p>`;
+                }
+            }
+
+            async function viewFile() {
+                const fileId = document.getElementById("fileId").value;
+                const imagePreview = document.getElementById("imagePreview");
+                const otherFileInfo = document.getElementById("otherFileInfo");
+                const filePreview = document.getElementById("filePreview");
+
+                if (!fileId) {
+                    alert("Please enter a file ID");
+                    return;
+                }
+
+                try {
+                    // First, make a request to get the file blob
+                    const response = await fetch(`${API_BASE}/open/${fileId}`, {
+                        headers: getAuthHeader(),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(
+                            `Error: ${response.status} ${response.statusText}`,
+                        );
+                    }
+
+                    const contentType = response.headers.get("content-type");
+                    const blob = await response.blob();
+                    const objectUrl = URL.createObjectURL(blob);
+
+                    // Show the preview section
+                    filePreview.classList.remove("hidden");
+
+                    // Handle different file types
+                    if (contentType.startsWith("image/")) {
+                        imagePreview.src = objectUrl;
+                        imagePreview.classList.remove("hidden");
+                        otherFileInfo.classList.add("hidden");
+                    } else {
+                        imagePreview.classList.add("hidden");
+                        otherFileInfo.classList.remove("hidden");
+                        otherFileInfo.innerHTML = `
+                        <p>File type: ${contentType}</p>
+                        <p>File size: ${(blob.size / 1024).toFixed(2)} KB</p>
+                        <p><a href="${objectUrl}" target="_blank">Open file in new tab</a></p>
+                    `;
+                    }
+                } catch (error) {
+                    alert(`Failed to load file: ${error.message}`);
+                }
+            }
+
+            function downloadFile() {
+                const fileId = document.getElementById("fileId").value;
+
+                if (!fileId) {
+                    alert("Please enter a file ID");
+                    return;
+                }
+
+                // Create headers object with Authorization if token exists
+                const headers = getAuthHeader();
+
+                // Create a hidden link and click it to trigger download
+                const link = document.createElement("a");
+                link.href = `${API_BASE}/download/${fileId}`;
+
+                // Add authorization header if present
+                if (headers["Authorization"]) {
+                    // Note: This is a workaround as we can't set headers directly on a download link
+                    // For production use, consider creating a temporary download endpoint or using a proper download manager
+                    alert(
+                        "For authenticated downloads, you may need to copy this URL and use it in a tool like Postman:\n" +
+                            link.href +
+                            "\n\nWith Authorization header: " +
+                            headers["Authorization"],
+                    );
+                }
+
+                link.click();
+            }
+
+            function copyToClipboard(text) {
+                navigator.clipboard.writeText(text);
+                alert("ID copied to clipboard!");
+            }
+        </script>
+    </body>
+</html>

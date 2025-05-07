@@ -1,4 +1,10 @@
 # Functionality
+## Attachment
+ - [x] create
+ - [x] open
+ - [x] download
+ - [x] delete
+
 ## User
  - [x] registration *Two-step email verification with OTP*
  - [x] log in

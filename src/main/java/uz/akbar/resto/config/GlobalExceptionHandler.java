@@ -26,6 +26,7 @@ import uz.akbar.resto.exception.AppBadRequestException;
 import uz.akbar.resto.exception.FileDeletionException;
 import uz.akbar.resto.exception.FileUploadException;
 import uz.akbar.resto.exception.RefreshTokenException;
+import uz.akbar.resto.exception.ResourceNotFoundException;
 import uz.akbar.resto.utils.Utils;
 
 /** GlobalExceptionHandler */
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
 	}
 
-	@ExceptionHandler(AppBadRequestException.class)
+	@ExceptionHandler({ AppBadRequestException.class, ResourceNotFoundException.class })
 	public ResponseEntity<ProblemDetail> handle(AppBadRequestException e) {
 		// e.printStackTrace();
 		return createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
