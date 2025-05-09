@@ -41,14 +41,14 @@ public class AdminServiceImpl implements AdminService {
 			throw new AppBadRequestException("User already in this status");
 
 		user.setStatus(status);
-		repository.save(user);
+		User saved = repository.save(user);
 
 		return AppResponse.builder()
 				.success(true)
 				.message(
 						"User has been "
 								+ (status == GeneralStatus.BLOCK ? "blocked" : "activated"))
-				.data(userId)
+				.data(mapper.toUserDetailsDto(saved))
 				.build();
 	}
 

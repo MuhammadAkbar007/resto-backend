@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import uz.akbar.resto.entity.Attachment;
 import uz.akbar.resto.entity.User;
@@ -14,7 +15,8 @@ import uz.akbar.resto.payload.response.UserDto;
 /**
  * UserMapper
  */
-@Mapper(componentModel = "spring", uses = { RoleMapper.class, OrderMapper.class })
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = {
+		RoleMapper.class, OrderMapper.class })
 public interface UserMapper {
 
 	// for user

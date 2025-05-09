@@ -1,0 +1,32 @@
+### Login as ADMIN
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+	"email": "fotismenos007@mail.ru",
+	"password": "root123"
+}
+
+### Login as MANAGER & CUSTOMER
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+	"email": "akbarjondev007@gmail.com",
+	"password": "root123"
+}
+
+##################################################################################################################################################################
+
+### create dish
+POST http://localhost:8080/api/v1/dish
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ2Nzg4OTg3LCJleHAiOjE3NDY3OTI1ODd9.cGFWQsY5oSkxTBU0fbrRA4x7syXPsl8L25tnjXEwDCp-LhvxKDfaz4y6nbQ4PP29sAL_5iPi9gT0Z4RfKsFAfQ
+Content-Type: application/json
+
+{
+	"name": "Spicy seasoned seafood noodles",
+	"price": 2.29,
+	"quantityAvailable": 20,
+	"dishCategory": "HOT",
+	"photoId": "06bd13d8-4c59-4379-a882-625901388399"
+}

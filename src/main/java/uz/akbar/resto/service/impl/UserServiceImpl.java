@@ -60,13 +60,10 @@ public class UserServiceImpl implements UserService {
 		User user = repository.findById(id)
 				.orElseThrow(() -> new AppBadRequestException("User not found"));
 
-		UserDetailsDto userDetailsDto = mapper.toUserDetailsDto(user);
-
 		return AppResponse.builder()
 				.success(true)
 				.message("User info")
-				.data(user)
-				.data(userDetailsDto)
+				.data(mapper.toUserDetailsDto(user))
 				.build();
 	}
 

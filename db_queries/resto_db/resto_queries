@@ -8,7 +8,8 @@
 -- SELECT id, compressed_id, file_path, original_name  from attachment
 -- SELECT * from users_roles;
 -- SELECT * from otp_verification;
-SELECT * from attachment;
+-- SELECT id, original_name from attachment;
+select * from dish;
 -- SELECT * from roles;
 
 -- DELETE from users;

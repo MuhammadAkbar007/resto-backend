@@ -1,4 +1,26 @@
 # Functionality
+ - [-] return dto with id
+## Dish
+ - [x] create
+ - [-] read all with pagination and sort
+ - [ ] read by id
+ - [ ] update
+ - [ ] delete
+
+## Order
+ - [ ] create
+ - [ ] read all with pagination and sort
+ - [ ] read by id
+ - [ ] update
+ - [ ] delete
+
+## OrderItem
+ - [ ] create
+ - [ ] read all with pagination and sort
+ - [ ] read by id
+ - [ ] update
+ - [ ] delete
+
 ## Attachment
  - [x] create
  - [x] open original
