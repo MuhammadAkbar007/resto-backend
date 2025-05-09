@@ -13,6 +13,8 @@ import uz.akbar.resto.enums.DishCategory;
 @Setter
 public class DishDto {
 
+	private Long id;
+
 	@NotBlank(message = "Name is required")
 	private String name;
 

@@ -1,5 +1,4 @@
 # Functionality
- - [-] return dto with id
 ## Dish
  - [x] create
  - [-] read all with pagination and sort

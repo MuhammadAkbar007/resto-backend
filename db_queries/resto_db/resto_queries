@@ -12,6 +12,7 @@
 select * from dish;
 -- SELECT * from roles;
 
+-- DELETE from dish WHERE id = 4;
 -- DELETE from users;
 -- DELETE from users_roles;
 -- DELETE from otp_verification;

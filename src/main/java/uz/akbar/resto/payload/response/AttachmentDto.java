@@ -1,5 +1,7 @@
 package uz.akbar.resto.payload.response;
 
+import java.util.UUID;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +11,8 @@ import uz.akbar.resto.enums.StorageType;
 @Getter
 @Setter
 public class AttachmentDto {
+
+	private UUID id;
 
 	private String originalName; /* pdp.jpg, inn.pdf */
 
