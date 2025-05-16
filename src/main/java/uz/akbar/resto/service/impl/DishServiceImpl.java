@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -82,6 +83,18 @@ public class DishServiceImpl implements DishService {
 				.success(true)
 				.message("Dishes retrieved successfully")
 				.data(PaginationData.of(dishDtos, dishesPage))
+				.build();
+	}
+
+	@Override
+	public AppResponse getById(Long id) {
+		Dish dish = repository.findById(id)
+				.orElseThrow(() -> new AppBadRequestException("Dish is not found with id: " + id));
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Dish successfully retrieved")
+				.data(mapper.toDto(dish))
 				.build();
 	}
 

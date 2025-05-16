@@ -31,6 +31,10 @@ Content-Type: application/json
 	"photoId": "06bd13d8-4c59-4379-a882-625901388399"
 }
 
-### get all dishes
+### get all dishes sort, filter & pagination
 GET http://localhost:8080/api/v1/dish/all
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3MzkzNDgwLCJleHAiOjE3NDczOTcwODB9.uFVk7h91KMCxVtss5I2qxAQoMc6RRNFqhhCwmYc22igcxAt9lNnKmJLIDd-yqq_PONapmAUkT7Tcbk4nXeEerA
+
+### get dish by id
+GET http://localhost:8080/api/v1/dish/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3Mzk3NDc1LCJleHAiOjE3NDc0MDEwNzV9.WwgAkgCrhcM6gEw9ts6qV3QqRDwcD1326K8rcnaiqmQm_w1bpuAkhHjVZyVXjPJl-QOeX6c-XNx2MQBOQmfO6A

@@ -1,9 +1,9 @@
 # Functionality
 ## Dish
  - [x] create
- - [-] read all with pagination and sort
- - [ ] read by id
- - [ ] update
+ - [x] read all with pagination, sort & filter
+ - [x] read by id
+ - [-] update
  - [ ] delete
 
 ## Order
