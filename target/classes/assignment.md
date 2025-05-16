@@ -2,8 +2,8 @@
 ## Dish
  - [x] create
  - [x] read all with pagination, sort & filter
- - [-] read by id
- - [ ] update
+ - [x] read by id
+ - [-] update
  - [ ] delete
 
 ## Order

@@ -6,7 +6,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -29,6 +28,7 @@ import uz.akbar.resto.mapper.DishMapper;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.PaginationData;
 import uz.akbar.resto.payload.request.DishDto;
+import uz.akbar.resto.payload.request.UpdateDishDto;
 import uz.akbar.resto.repository.DishRepository;
 import uz.akbar.resto.service.AttachmentService;
 import uz.akbar.resto.service.DishService;
@@ -95,6 +95,27 @@ public class DishServiceImpl implements DishService {
 				.success(true)
 				.message("Dish successfully retrieved")
 				.data(mapper.toDto(dish))
+				.build();
+	}
+
+	@Override
+	public AppResponse edit(Long id, UpdateDishDto dto) {
+		Dish dish = repository.findById(id)
+				.orElseThrow(() -> new AppBadRequestException("Dish is not found by id: " + id));
+
+		mapper.updateDishFromDto(dto, dish);
+
+		if (dto.getPhotoId() != null) {
+			Attachment photo = attachmentService.findAttachmentById(dto.getPhotoId());
+			dish.setPhoto(photo);
+		}
+
+		Dish saved = repository.save(dish);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Dish updated successfully")
+				.data(mapper.toDto(saved))
 				.build();
 	}
 
