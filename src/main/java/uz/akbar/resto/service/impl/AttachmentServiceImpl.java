@@ -90,8 +90,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 	@Override
 	public ResponseEntity<Resource> openThumbnail(UUID idOfOriginal) {
 
-		Attachment attachment = repository.findById(idOfOriginal)
-				.orElseThrow(() -> new AppBadRequestException("Attachment not found with id: " + idOfOriginal));
+		Attachment attachment = findAttachmentById(idOfOriginal);
 
 		Attachment compressed = attachment.getCompressed();
 		if (compressed == null)
@@ -344,6 +343,13 @@ public class AttachmentServiceImpl implements AttachmentService {
 		}
 
 		return repository.save(compressed);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Attachment findAttachmentById(UUID id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new AppBadRequestException("Attachment not found with id: " + id));
 	}
 
 	/**

@@ -217,55 +217,6 @@ public class UserServiceImpl implements UserService {
 				.build();
 	}
 
-	/**
-	 * Creates a Pageable object for pagination and sorting.
-	 *
-	 * @param page Zero-based page index
-	 * @param size Page size
-	 * @param sort String array with format ["property,direction",
-	 *             "property,direction"]
-	 *             For example: ["createdAt,desc", "firstName,asc"]
-	 * 
-	 * @return A configured Pageable object
-	 */
-	private Pageable createPageable(int page, int size, String[] sort) {
-		if (page < 0)
-			page = 0;
-
-		if (size < 1)
-			size = 10;
-
-		List<Sort.Order> orders = new ArrayList<>();
-
-		if (sort != null && sort.length > 0) {
-			for (String sortItem : sort) {
-				if (sortItem.contains(",")) {
-					String[] parts = sortItem.split(",");
-					String property = parts[0];
-
-					if (!isValidProperty(property)) {
-						continue;
-					}
-
-					Sort.Direction direction = parts.length > 1 && parts[1].equalsIgnoreCase("asc") ? Sort.Direction.ASC
-							: Sort.Direction.DESC;
-
-					orders.add(new Sort.Order(direction, property));
-				} else {
-					if (isValidProperty(sortItem)) {
-						orders.add(new Sort.Order(Sort.Direction.ASC, sortItem));
-					}
-				}
-			}
-		}
-
-		if (orders.isEmpty()) {
-			orders.add(new Sort.Order(Sort.Direction.ASC, "createdAt"));
-		}
-
-		return PageRequest.of(page, size, Sort.by(orders));
-	}
-
 	private Specification<User> buildSpecification(String searchTerm, String email, String phoneNumber,
 			LocalDateTime fromDateTime, LocalDateTime toDateTime, GeneralStatus status, RoleType role) {
 
@@ -314,6 +265,55 @@ public class UserServiceImpl implements UserService {
 			return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
 		};
 
+	}
+
+	/**
+	 * Creates a Pageable object for pagination and sorting.
+	 *
+	 * @param page Zero-based page index
+	 * @param size Page size
+	 * @param sort String array with format ["property,direction",
+	 *             "property,direction"]
+	 *             For example: ["createdAt,desc", "firstName,asc"]
+	 * 
+	 * @return A configured Pageable object
+	 */
+	private Pageable createPageable(int page, int size, String[] sort) {
+		if (page < 0)
+			page = 0;
+
+		if (size < 1)
+			size = 10;
+
+		List<Sort.Order> orders = new ArrayList<>();
+
+		if (sort != null && sort.length > 0) {
+			for (String sortItem : sort) {
+				if (sortItem.contains(",")) {
+					String[] parts = sortItem.split(",");
+					String property = parts[0];
+
+					if (!isValidProperty(property)) {
+						continue;
+					}
+
+					Sort.Direction direction = parts.length > 1 && parts[1].equalsIgnoreCase("asc") ? Sort.Direction.ASC
+							: Sort.Direction.DESC;
+
+					orders.add(new Sort.Order(direction, property));
+				} else {
+					if (isValidProperty(sortItem)) {
+						orders.add(new Sort.Order(Sort.Direction.ASC, sortItem));
+					}
+				}
+			}
+		}
+
+		if (orders.isEmpty()) {
+			orders.add(new Sort.Order(Sort.Direction.ASC, "createdAt"));
+		}
+
+		return PageRequest.of(page, size, Sort.by(orders));
 	}
 
 	private boolean isValidProperty(String property) {

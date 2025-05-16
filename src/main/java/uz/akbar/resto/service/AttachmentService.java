@@ -17,7 +17,9 @@ public interface AttachmentService {
 
 	Attachment getDefaultProfileImage();
 
-	void deleteAttachment(UUID attachmentI);
+	void deleteAttachment(UUID attachmentId);
+
+	Attachment findAttachmentById(UUID id);
 
 	Attachment saveAttachment(MultipartFile photo, StorageType fileSystem);
 
