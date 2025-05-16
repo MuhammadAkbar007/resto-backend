@@ -203,7 +203,7 @@ public class UserServiceImpl implements UserService {
 			throw new FileUploadException(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Only image files are allowed");
 
 		if (userToUpdate.getPhoto() != null)
-			attachmentService.deleteAttachment(userToUpdate.getPhoto().getId());
+			attachmentService.deleteHardAttachment(userToUpdate.getPhoto().getId());
 
 		Attachment savedAttachment = attachmentService.saveAttachment(photo, StorageType.FILE_SYSTEM);
 		userToUpdate.setPhoto(savedAttachment);

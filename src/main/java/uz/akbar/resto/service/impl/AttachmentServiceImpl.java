@@ -170,7 +170,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 	@Override
 	@Transactional
-	public void deleteAttachment(UUID attachmentId) {
+	public void deleteHardAttachment(UUID attachmentId) {
 		if (attachmentId != null) {
 			Attachment attachment = repository.findById(attachmentId)
 					.orElseThrow(() -> new FileUploadException(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -180,7 +180,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 				return;
 
 			if (attachment.getCompressed() != null)
-				deleteAttachment(attachment.getCompressed().getId());
+				deleteHardAttachment(attachment.getCompressed().getId());
 
 			if (attachment.getStorageType() == StorageType.FILE_SYSTEM && attachment.getFilePath() != null) {
 				Path path = Paths.get(uploadDir, attachment.getFilePath());
@@ -194,6 +194,26 @@ public class AttachmentServiceImpl implements AttachmentService {
 
 			repository.delete(attachment);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void deleteSoftAttachment(UUID id) {
+		if (id == null)
+			throw new AppBadRequestException("attachment id is null: " + id);
+
+		Attachment attachment = repository.findById(id)
+				.orElseThrow(() -> new FileUploadException(HttpStatus.INTERNAL_SERVER_ERROR,
+						"Attachment not found with id: " + id));
+
+		if (defaultProfileImagePath.equals(attachment.getFilePath()))
+			return;
+
+		if (attachment.getCompressed() != null)
+			deleteSoftAttachment(attachment.getCompressed().getId());
+
+		attachment.setVisible(false);
+		repository.save(attachment);
 	}
 
 	@Override

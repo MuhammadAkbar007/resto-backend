@@ -16,6 +16,7 @@
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/User.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/template/AbsLongEntity.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/entity/template/AbsUUIDEntity.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/DeleteType.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/DishCategory.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/GeneralStatus.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/enums/OrderStatus.java

@@ -3,14 +3,15 @@
 -- 	join roles on roles.id = users_roles.role_id 
 -- 	order by email;
 
--- SELECT * from refresh_token;
--- SELECT id, photo_id, email, phone_number, first_name from users;
--- SELECT id, compressed_id, file_path, original_name  from attachment
--- SELECT * from users_roles;
--- SELECT * from otp_verification;
--- SELECT id, original_name from attachment;
+-- select * from attachment;
 select * from dish;
+-- SELECT * from otp_verification;
+-- SELECT * from refresh_token;
 -- SELECT * from roles;
+-- SELECT * from users_roles;
+-- SELECT id, original_name from attachment;
+-- SELECT id, compressed_id, file_path, original_name  from attachment
+-- SELECT id, photo_id, email, phone_number, first_name from users;
 
 -- DELETE from dish WHERE id = 4;
 -- DELETE from users;

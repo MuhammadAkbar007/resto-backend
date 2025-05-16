@@ -2,6 +2,7 @@ package uz.akbar.resto.service;
 
 import java.time.LocalDateTime;
 
+import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.DishCategory;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.payload.AppResponse;
@@ -19,5 +20,7 @@ public interface DishService {
 	AppResponse getById(Long id);
 
 	AppResponse edit(Long id, UpdateDishDto dto);
+
+	void delete(Long id, DeleteType deleteType);
 
 }

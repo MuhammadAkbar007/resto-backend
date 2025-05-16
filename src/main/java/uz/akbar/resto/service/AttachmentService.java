@@ -17,7 +17,9 @@ public interface AttachmentService {
 
 	Attachment getDefaultProfileImage();
 
-	void deleteAttachment(UUID attachmentId);
+	void deleteHardAttachment(UUID attachmentId);
+
+	void deleteSoftAttachment(UUID attachmentId);
 
 	Attachment findAttachmentById(UUID id);
 

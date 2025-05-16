@@ -48,6 +48,7 @@ uz/akbar/resto/entity/RefreshToken.class
 uz/akbar/resto/payload/jwt/JwtDto.class
 uz/akbar/resto/config/GlobalExceptionHandler.class
 uz/akbar/resto/mapper/RoleMapper.class
+uz/akbar/resto/service/impl/DishServiceImpl$1.class
 uz/akbar/resto/enums/DishCategory.class
 uz/akbar/resto/payload/response/RoleDto.class
 uz/akbar/resto/payload/AppResponse$AppResponseBuilder.class

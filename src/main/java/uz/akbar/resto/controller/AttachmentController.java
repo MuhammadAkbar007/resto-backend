@@ -49,7 +49,7 @@ public class AttachmentController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<AppResponse> delete(@PathVariable UUID id) {
-		service.deleteAttachment(id);
+		service.deleteHardAttachment(id);
 		return ResponseEntity.noContent().build();
 	}
 }

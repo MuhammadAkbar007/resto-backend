@@ -21,6 +21,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.Attachment;
 import uz.akbar.resto.entity.Dish;
+import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.DishCategory;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.exception.AppBadRequestException;
@@ -87,6 +88,7 @@ public class DishServiceImpl implements DishService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public AppResponse getById(Long id) {
 		Dish dish = repository.findById(id)
 				.orElseThrow(() -> new AppBadRequestException("Dish is not found with id: " + id));
@@ -99,6 +101,7 @@ public class DishServiceImpl implements DishService {
 	}
 
 	@Override
+	@Transactional
 	public AppResponse edit(Long id, UpdateDishDto dto) {
 		Dish dish = repository.findById(id)
 				.orElseThrow(() -> new AppBadRequestException("Dish is not found by id: " + id));
@@ -117,6 +120,35 @@ public class DishServiceImpl implements DishService {
 				.message("Dish updated successfully")
 				.data(mapper.toDto(saved))
 				.build();
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id, DeleteType deleteType) {
+		Dish dish = repository.findById(id)
+				.orElseThrow(() -> new AppBadRequestException("Dish is not found with id: " + id));
+
+		Attachment photo = dish.getPhoto();
+
+		switch (deleteType) {
+			case SOFT:
+				if (photo != null)
+					attachmentService.deleteSoftAttachment(photo.getId());
+
+				dish.setVisible(false);
+				repository.save(dish);
+				break;
+
+			case HARD:
+				if (photo != null)
+					attachmentService.deleteHardAttachment(photo.getId());
+
+				repository.delete(dish);
+				break;
+
+			default:
+				throw new AppBadRequestException("Wrong deletion type: " + deleteType);
+		}
 	}
 
 	private Specification<Dish> buildSpecification(String searchTerm, String name, String price,

@@ -3,8 +3,9 @@
  - [x] create
  - [x] read all with pagination, sort & filter
  - [x] read by id
- - [-] update
- - [ ] delete
+ - [x] update
+ - [ ] delete: `hard`
+ - [-] delete: `soft`
 
 ## Order
  - [ ] create

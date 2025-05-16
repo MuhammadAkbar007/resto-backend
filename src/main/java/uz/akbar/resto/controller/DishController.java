@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.DishCategory;
 import uz.akbar.resto.enums.GeneralStatus;
 import uz.akbar.resto.payload.AppResponse;
@@ -77,4 +79,13 @@ public class DishController {
 		return ResponseEntity.ok(response);
 	}
 
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAnyRole('EMPLOYEE', 'MANAGER', 'ADMIN')")
+	public ResponseEntity<AppResponse> delete(@PathVariable Long id,
+			@RequestParam(required = true) DeleteType deleteType) {
+
+		service.delete(id, deleteType);
+
+		return ResponseEntity.noContent().build();
+	}
 }

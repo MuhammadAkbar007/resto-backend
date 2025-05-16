@@ -51,3 +51,7 @@ Content-Type: application/json
 	"dishCategory": null,
 	"photoId": null
 }
+
+### delete dish (HARD & SOFT)
+DELETE http://localhost:8080/api/v1/dish/6?deleteType=HARD
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3NDIyMzMyLCJleHAiOjE3NDc0MjU5MzJ9.7WA2_dTs69IyuJNR8tkdqFfJ301pygAaonmaVUE-Z3e691L4F8RZlzMnPNkd9b4yVY7DYHdzRWMCqrEtDEKHnQ
