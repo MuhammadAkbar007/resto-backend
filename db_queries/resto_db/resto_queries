@@ -8,21 +8,21 @@
 
 -- select * from attachment;
 select * from dish;
--- SELECT * from otp_verification;
--- SELECT * from refresh_token;
--- SELECT * from roles;
--- SELECT * from users;
--- SELECT * from users_roles;
--- SELECT id, original_name from attachment;
--- SELECT id, compressed_id, file_path, original_name  from attachment
+-- select * from otp_verification;
+-- select * from refresh_token;
+-- select * from roles;
+-- select * from users;
+-- select * from users_roles;
+-- select id, original_name from attachment;
+-- select id, compressed_id, file_path, original_name from attachment;
 -- select id, photo_id, name from dish;
--- SELECT id, photo_id, first_name from users;
+-- select id, photo_id, first_name from users;
 
--- DELETE from dish WHERE id = 4;
--- DELETE from users;
--- DELETE from users_roles;
--- DELETE from otp_verification;
--- DELETE from refresh_token;
+-- delete from dish where id = 4;
+-- delete from users;
+-- delete from users_roles;
+-- delete from otp_verification;
+-- delete from refresh_token;
 
--- UPDATE users set visible = TRUE 
--- 	WHERE id = '3e673bdd-a078-4bc7-a427-09963fed471c';
+-- update users set visible = true 
+-- 	where id = '3e673bdd-a078-4bc7-a427-09963fed471c';
