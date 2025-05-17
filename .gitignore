@@ -25,5 +25,3 @@ src/main/resources/application.properties
 
 # Uploads folder to store images in FS
 uploads/
-rest_response
-scratch/
