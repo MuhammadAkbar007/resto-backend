@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ### create dish
 POST http://localhost:8080/api/v1/dish
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3Mzk5MjMzLCJleHAiOjE3NDc0MDI4MzN9.3ebGF1aA-aXhIyRXSopbq-3UOhqYHTj5Q7bfZmWGn1bZZsWLjCSr4M59Wh77MX4d-uA-X1C0xWYY9Jb9dC4h3A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3NDc4NjU3LCJleHAiOjE3NDc0ODIyNTd9.iFrulLGhqoGZj1ROJ2a7FF1bm78eopaB7JtDd-qu2DCttKxgBRNDN9CDxuqsdm-c42PYib8yFe6hSWTvJFFPeg
 Content-Type: application/json
 
 {
@@ -28,7 +28,7 @@ Content-Type: application/json
 	"price": 2.29,
 	"quantityAvailable": 20,
 	"dishCategory": "HOT",
-	"photoId": "07ef4671-06af-49a2-ac46-b21502c02977"
+	"photoId": "a75c90e2-e763-4625-92d4-b913016938d7"
 }
 
 ### get all dishes sort, filter & pagination
@@ -41,7 +41,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwuc
 
 ### update dish
 PUT http://localhost:8080/api/v1/dish/6
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3Mzk5MjMzLCJleHAiOjE3NDc0MDI4MzN9.3ebGF1aA-aXhIyRXSopbq-3UOhqYHTj5Q7bfZmWGn1bZZsWLjCSr4M59Wh77MX4d-uA-X1C0xWYY9Jb9dC4h3A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3NDc4NjU3LCJleHAiOjE3NDc0ODIyNTd9.iFrulLGhqoGZj1ROJ2a7FF1bm78eopaB7JtDd-qu2DCttKxgBRNDN9CDxuqsdm-c42PYib8yFe6hSWTvJFFPeg
 Content-Type: application/json
 
 {
@@ -49,9 +49,9 @@ Content-Type: application/json
 	"price": 4.29,
 	"quantityAvailable": 40,
 	"dishCategory": null,
-	"photoId": null
+	"photoId": "6f9c4229-22ad-4866-9fbc-c9a2bfafcc81"
 }
 
 ### delete dish (HARD & SOFT)
-DELETE http://localhost:8080/api/v1/dish/6?deleteType=HARD
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3NDIyMzMyLCJleHAiOjE3NDc0MjU5MzJ9.7WA2_dTs69IyuJNR8tkdqFfJ301pygAaonmaVUE-Z3e691L4F8RZlzMnPNkd9b4yVY7DYHdzRWMCqrEtDEKHnQ
+DELETE http://localhost:8080/api/v1/dish/1?deleteType=HARD
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3NDc4NjU3LCJleHAiOjE3NDc0ODIyNTd9.iFrulLGhqoGZj1ROJ2a7FF1bm78eopaB7JtDd-qu2DCttKxgBRNDN9CDxuqsdm-c42PYib8yFe6hSWTvJFFPeg
