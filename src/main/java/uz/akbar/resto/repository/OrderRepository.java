@@ -14,4 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
 
 	@Query("select coalesce(max(o.number), 0) + 1 from orders o")
 	Long getNextOrderNumber();
+
+	boolean existsByNumber(Long number);
 }

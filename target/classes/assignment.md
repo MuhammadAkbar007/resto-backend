@@ -4,14 +4,15 @@
  - [x] read all with pagination, sort & filter
  - [x] read by id
  - [x] update
- - [-] delete: `hard`
+ - [x] delete: `hard`
  - [x] delete: `soft`
 
 ## Order
- - [ ] create
+ - [-] create
  - [ ] read all with pagination and sort
  - [ ] read by id
  - [ ] update
+ - [ ] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
  - [ ] delete
 
 ## OrderItem
@@ -19,6 +20,7 @@
  - [ ] read all with pagination and sort
  - [ ] read by id
  - [ ] update
+ - [ ] change statuses: *DINE_IN*, *TO_GO*, *DELIVERY*
  - [ ] delete
 
 ## Attachment
@@ -44,11 +46,6 @@
 
 ## System
  - [ ] change `RuntimeException` handler in *GlobalExceptionHandler*
-
-> [!NOTE]
-> - default image for user and dish -> metadata should be saved in db
-> - in orderService
-before saving, getNextOrderNumber from repo
 
 ## System Functionality
  - [x] *PaginationData* is implemented

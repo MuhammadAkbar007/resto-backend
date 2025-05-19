@@ -7,7 +7,8 @@
 -- join users u on d.photo_id = u.photo_id ;
 
 -- select * from attachment;
-select * from dish;
+-- select * from dish;
+select * from orders;
 -- select * from otp_verification;
 -- select * from refresh_token;
 -- select * from roles;
