@@ -1,6 +1,7 @@
 package uz.akbar.resto.service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import uz.akbar.resto.enums.OrderStatus;
 import uz.akbar.resto.payload.AppResponse;
@@ -12,5 +13,7 @@ public interface OrderService {
 
 	AppResponse getAll(String searchTerm, Long number, Double discount, Double totalPrice, OrderStatus orderStatus,
 			LocalDateTime fromDateTime, LocalDateTime toDateTime, int page, int size, String[] sort);
+
+	AppResponse getById(UUID id);
 
 }

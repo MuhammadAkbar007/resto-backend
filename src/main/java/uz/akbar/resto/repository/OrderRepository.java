@@ -1,5 +1,6 @@
 package uz.akbar.resto.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface OrderRepository extends JpaRepository<Order, UUID>, JpaSpecific
 	Long getNextOrderNumber();
 
 	boolean existsByNumber(Long number);
+
+	Optional<Order> findByIdAndVisibleTrue(UUID id);
 }

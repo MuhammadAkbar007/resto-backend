@@ -1,10 +1,13 @@
 package uz.akbar.resto.controller;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.enums.OrderStatus;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.request.CreateOrderDto;
+import uz.akbar.resto.security.CustomUserDetails;
 import uz.akbar.resto.service.OrderService;
 import uz.akbar.resto.utils.Utils;
 
@@ -50,6 +54,15 @@ public class OrderController {
 		AppResponse response = service.getAll(searchTerm, number, discount, totalPrice, orderStatus,
 				fromDateTime, toDateTime, page, size, sort);
 
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/{id}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<AppResponse> getById(@PathVariable UUID id,
+			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+		AppResponse response = service.getById(id);
 		return ResponseEntity.ok(response);
 	}
 }

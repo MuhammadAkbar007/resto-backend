@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -100,6 +101,20 @@ public class OrderServiceImpl implements OrderService {
 				.success(true)
 				.message("Orders successfully retrieved")
 				.data(PaginationData.of(orderDetailsDtoList, ordersPage))
+				.build();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public AppResponse getById(UUID id) {
+
+		Order order = repository.findByIdAndVisibleTrue(id)
+				.orElseThrow(() -> new AppBadRequestException("Order not found with id: " + id));
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Order successfully retrieved")
+				.data(mapper.toDetailsDto(order))
 				.build();
 	}
 
@@ -200,4 +215,5 @@ public class OrderServiceImpl implements OrderService {
 
 		return validProperties.contains(property);
 	}
+
 }
