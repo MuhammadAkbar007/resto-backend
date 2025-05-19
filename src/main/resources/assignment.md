@@ -1,7 +1,7 @@
 # Functionality
 ## Dish
  - [x] create
- - [x] read all with pagination, sort & filter
+ - [x] read all with *pagination*, *sort* & *filter*
  - [x] read by id
  - [x] update
  - [x] delete: `hard`
@@ -9,15 +9,15 @@
 
 ## Order
  - [x] create
- - [-] read all with pagination and sort
- - [ ] read by id
+ - [x] read all with *pagination*, *sort* & *filter*
+ - [-] read by id
  - [ ] update
  - [ ] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
  - [ ] delete
 
 ## OrderItem
  - [ ] create
- - [ ] read all with pagination and sort
+ - [ ] read all with *pagination*, *sort* & *filter*
  - [ ] read by id
  - [ ] update
  - [ ] change statuses: *DINE_IN*, *TO_GO*, *DELIVERY*

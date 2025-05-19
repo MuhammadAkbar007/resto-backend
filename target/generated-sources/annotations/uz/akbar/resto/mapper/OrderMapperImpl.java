@@ -15,7 +15,7 @@ import uz.akbar.resto.payload.response.OrderDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-19T14:03:47+0500",
+    date = "2025-05-19T17:08:28+0500",
     comments = "version: 1.6.3, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
@@ -60,6 +60,20 @@ public class OrderMapperImpl implements OrderMapper {
         orderDetailsDto.setVisible( order.getVisible() );
 
         return orderDetailsDto;
+    }
+
+    @Override
+    public List<OrderDetailsDto> toDetailsDtoList(List<Order> orders) {
+        if ( orders == null ) {
+            return null;
+        }
+
+        List<OrderDetailsDto> list = new ArrayList<OrderDetailsDto>( orders.size() );
+        for ( Order order : orders ) {
+            list.add( toDetailsDto( order ) );
+        }
+
+        return list;
     }
 
     private UUID orderCustomerId(Order order) {

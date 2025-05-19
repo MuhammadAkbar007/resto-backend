@@ -45,3 +45,6 @@ Content-Type: application/json
 	]
 }
 
+### get all orders with filter, sort & pagination
+GET http://localhost:8080/api/v1/order/all
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ3NjU2NTg2LCJleHAiOjE3NDc2NjAxODZ9.ffnYIUq8wbwvajC_PdVpAA_c4gGDp46nTea50GXGSvNxoMB9QNRb6wenf8ITNTmpbF3GlsWWi9OU1c_-RfxXjw

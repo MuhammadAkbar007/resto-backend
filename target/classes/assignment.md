@@ -8,8 +8,8 @@
  - [x] delete: `soft`
 
 ## Order
- - [-] create
- - [ ] read all with pagination and sort
+ - [x] create
+ - [-] read all with pagination and sort
  - [ ] read by id
  - [ ] update
  - [ ] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*

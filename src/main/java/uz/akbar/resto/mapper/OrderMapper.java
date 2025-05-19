@@ -1,5 +1,7 @@
 package uz.akbar.resto.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -20,4 +22,6 @@ public interface OrderMapper {
 	@Mapping(target = "customerId", source = "customer.id")
 	@Mapping(target = "orderItemDtos", source = "orderItems")
 	OrderDetailsDto toDetailsDto(Order order);
+
+	List<OrderDetailsDto> toDetailsDtoList(List<Order> orders);
 }
