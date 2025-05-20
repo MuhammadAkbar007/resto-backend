@@ -46,6 +46,6 @@ public class Order extends AbsUUIDEntity {
 	@JoinColumn(nullable = false)
 	private User customer;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderItem> orderItems;
 }

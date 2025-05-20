@@ -32,6 +32,7 @@ import uz.akbar.resto.mapper.OrderMapper;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.PaginationData;
 import uz.akbar.resto.payload.request.CreateOrderDto;
+import uz.akbar.resto.payload.request.UpdateOrderDto;
 import uz.akbar.resto.payload.response.OrderDetailsDto;
 import uz.akbar.resto.repository.OrderRepository;
 import uz.akbar.resto.repository.UserRepository;
@@ -119,6 +120,44 @@ public class OrderServiceImpl implements OrderService {
 				.success(true)
 				.message("Order successfully retrieved")
 				.data(mapper.toDetailsDto(order))
+				.build();
+	}
+
+	@Override
+	@Transactional
+	public AppResponse update(UUID id, UpdateOrderDto dto, User user) {
+		Order order = repository.findByIdAndVisibleTrue(id)
+				.orElseThrow(() -> new AppBadRequestException("Order is not found with id: " + id));
+
+		if (!order.getOrderStatus().equals(OrderStatus.PENDING))
+			throw new AppBadRequestException("You can't change order in this status: " + order.getOrderStatus());
+
+		if (!isNotAdminOrManager(user)) {
+			// update customerId, discount -> MANAGER, ADMIN
+			User customer = userRepository.findByIdAndVisibleTrue(dto.getCustomerId())
+					.orElseThrow(() -> new AppBadRequestException("User not found with id: " + dto.getCustomerId()));
+
+			order.setCustomer(customer);
+			order.setDiscount(dto.getDiscount());
+		}
+
+		// update orderItems -> CUSTOMER, EMPLOYEE, MANAGER, ADMIN
+		order.getOrderItems().clear();
+		List<OrderItem> savedOrderItems = orderItemService.saveAll(dto.getOrderItemDtos(), order);
+
+		double subTotal = savedOrderItems.stream()
+				.mapToDouble(item -> item.getPrice() * item.getQuantity())
+				.sum();
+
+		order.setOrderItems(savedOrderItems);
+		order.setTotalPrice(subTotal - dto.getDiscount());
+
+		Order saved = repository.save(order);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Order successfully updated")
+				.data(mapper.toDetailsDto(saved))
 				.build();
 	}
 

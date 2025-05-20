@@ -8,6 +8,7 @@ import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.OrderStatus;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.request.CreateOrderDto;
+import uz.akbar.resto.payload.request.UpdateOrderDto;
 
 public interface OrderService {
 
@@ -19,4 +20,6 @@ public interface OrderService {
 	AppResponse getById(UUID id);
 
 	void delete(UUID id, DeleteType deleteType, User user);
+
+	AppResponse update(UUID id, UpdateOrderDto dto, User user);
 }
