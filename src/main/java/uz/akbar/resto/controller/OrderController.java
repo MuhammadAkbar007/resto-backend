@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.OrderStatus;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.request.CreateOrderDto;
@@ -59,10 +61,18 @@ public class OrderController {
 
 	@GetMapping("/{id}")
 	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<AppResponse> getById(@PathVariable UUID id,
-			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-
+	public ResponseEntity<AppResponse> getById(@PathVariable UUID id) {
 		AppResponse response = service.getById(id);
 		return ResponseEntity.ok(response);
 	}
+
+	@DeleteMapping("/{id}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<Void> delete(@PathVariable UUID id, @RequestParam(required = true) DeleteType deleteType,
+			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+		service.delete(id, deleteType, customUserDetails.getUser());
+		return ResponseEntity.noContent().build();
+	}
+
 }

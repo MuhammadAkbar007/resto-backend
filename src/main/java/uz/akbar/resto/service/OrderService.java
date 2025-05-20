@@ -3,6 +3,8 @@ package uz.akbar.resto.service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import uz.akbar.resto.entity.User;
+import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.OrderStatus;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.request.CreateOrderDto;
@@ -16,4 +18,5 @@ public interface OrderService {
 
 	AppResponse getById(UUID id);
 
+	void delete(UUID id, DeleteType deleteType, User user);
 }

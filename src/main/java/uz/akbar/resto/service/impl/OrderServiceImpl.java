@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -21,8 +22,11 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.Order;
 import uz.akbar.resto.entity.OrderItem;
+import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
+import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.OrderStatus;
+import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.exception.AppBadRequestException;
 import uz.akbar.resto.mapper.OrderMapper;
 import uz.akbar.resto.payload.AppResponse;
@@ -116,6 +120,41 @@ public class OrderServiceImpl implements OrderService {
 				.message("Order successfully retrieved")
 				.data(mapper.toDetailsDto(order))
 				.build();
+	}
+
+	@Override
+	@Transactional
+	public void delete(UUID id, DeleteType deleteType, User user) {
+		switch (deleteType) {
+			case HARD:
+				Order order = repository.findById(id)
+						.orElseThrow(() -> new AppBadRequestException("Order not found with id: " + id));
+
+				if (isNotAdminOrManager(user) && !order.getCustomer().getId().equals(user.getId()))
+					throw new AppBadRequestException("You can't delete other's order");
+
+				repository.delete(order);
+				break;
+
+			case SOFT:
+				Order visibleOrder = repository.findByIdAndVisibleTrue(id)
+						.orElseThrow(() -> new AppBadRequestException("Order not found with id: " + id));
+
+				if (isNotAdminOrManager(user) && !visibleOrder.getCustomer().getId().equals(user.getId()))
+					throw new AppBadRequestException("You can't delete other's order");
+
+				visibleOrder.setVisible(false);
+				/*
+				 * Since it's in a transaction jpa context
+				 * no need to save this entity
+				 * because jpa flushes while commit
+				 */
+				repository.save(visibleOrder);
+				break;
+
+			default:
+				throw new AppBadRequestException("Wrong deletion type: " + deleteType);
+		}
 	}
 
 	private Specification<Order> buildSpecification(String searchTerm, Long number, Double discount, Double totalPrice,
@@ -214,6 +253,18 @@ public class OrderServiceImpl implements OrderService {
 				"createdAt", "visible");
 
 		return validProperties.contains(property);
+	}
+
+	private boolean isNotAdminOrManager(User user) {
+		Set<Role> roles = user.getRoles();
+
+		if (roles == null)
+			throw new AppBadRequestException("User has no roles");
+
+		return roles.stream()
+				.anyMatch(role -> role.getRoleType().equals(RoleType.ROLE_CUSTOMER)
+						&& !role.getRoleType().equals(RoleType.ROLE_MANAGER)
+						&& !role.getRoleType().equals(RoleType.ROLE_ADMIN));
 	}
 
 }

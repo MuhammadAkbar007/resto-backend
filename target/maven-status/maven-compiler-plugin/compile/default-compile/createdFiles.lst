@@ -40,6 +40,7 @@ uz/akbar/resto/entity/Order.class
 uz/akbar/resto/entity/RefreshToken$RefreshTokenBuilder.class
 uz/akbar/resto/entity/Attachment.class
 uz/akbar/resto/payload/jwt/JwtDto$JwtDtoBuilder.class
+uz/akbar/resto/service/impl/OrderServiceImpl$1.class
 uz/akbar/resto/security/jwt/JwtAuthenticationFilter.class
 uz/akbar/resto/entity/OrderItem.class
 uz/akbar/resto/service/impl/AttachmentServiceImpl$1.class

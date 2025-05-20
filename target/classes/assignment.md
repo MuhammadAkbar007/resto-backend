@@ -10,10 +10,11 @@
 ## Order
  - [x] create
  - [x] read all with *pagination*, *sort* & *filter*
- - [-] read by id
+ - [x] read by id
  - [ ] update
  - [ ] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
- - [ ] delete
+ - [ ] delete: `hard`
+ - [-] delete: `soft`
 
 ## OrderItem
  - [ ] create
