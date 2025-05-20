@@ -13,8 +13,8 @@
  - [x] read by id
  - [ ] update
  - [ ] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
- - [ ] delete: `hard`
- - [-] delete: `soft`
+ - [-] delete: `hard`
+ - [x] delete: `soft`
 
 ## OrderItem
  - [ ] create

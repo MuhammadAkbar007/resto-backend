@@ -7,7 +7,7 @@ import uz.akbar.resto.payload.response.RoleDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-20T13:38:40+0500",
+    date = "2025-05-20T14:14:10+0500",
     comments = "version: 1.6.3, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component

@@ -262,9 +262,8 @@ public class OrderServiceImpl implements OrderService {
 			throw new AppBadRequestException("User has no roles");
 
 		return roles.stream()
-				.anyMatch(role -> role.getRoleType().equals(RoleType.ROLE_CUSTOMER)
-						&& !role.getRoleType().equals(RoleType.ROLE_MANAGER)
-						&& !role.getRoleType().equals(RoleType.ROLE_ADMIN));
+				.noneMatch(role -> role.getRoleType().equals(RoleType.ROLE_MANAGER)
+						|| role.getRoleType().equals(RoleType.ROLE_ADMIN));
 	}
 
 }
