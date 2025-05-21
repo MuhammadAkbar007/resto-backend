@@ -22,4 +22,6 @@ public interface OrderService {
 	void delete(UUID id, DeleteType deleteType, User user);
 
 	AppResponse update(UUID id, UpdateOrderDto dto, User user);
+
+	AppResponse updateStatus(UUID id, OrderStatus orderStatus);
 }

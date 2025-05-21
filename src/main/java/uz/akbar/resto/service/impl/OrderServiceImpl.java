@@ -163,6 +163,22 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional
+	public AppResponse updateStatus(UUID id, OrderStatus orderStatus) {
+		Order order = repository.findByIdAndVisibleTrue(id)
+				.orElseThrow(() -> new AppBadRequestException("Order is not found with id: " + id));
+
+		order.setOrderStatus(orderStatus);
+		Order saved = repository.save(order);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Order status successfully updated to: " + orderStatus)
+				.data(mapper.toDetailsDto(saved))
+				.build();
+	}
+
+	@Override
+	@Transactional
 	public void delete(UUID id, DeleteType deleteType, User user) {
 		switch (deleteType) {
 			case HARD:

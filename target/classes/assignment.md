@@ -11,8 +11,8 @@
  - [x] create
  - [x] read all with *pagination*, *sort* & *filter*
  - [x] read by id
- - [-] update
- - [ ] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
+ - [x] update
+ - [-] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
  - [x] delete: `hard`
  - [x] delete: `soft`
 

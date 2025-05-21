@@ -12,12 +12,12 @@
  - [x] read all with *pagination*, *sort* & *filter*
  - [x] read by id
  - [x] update
- - [-] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
+ - [x] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
  - [x] delete: `hard`
  - [x] delete: `soft`
 
 ## OrderItem
- - [ ] create
+ - [-] create
  - [ ] read all with *pagination*, *sort* & *filter*
  - [ ] read by id
  - [ ] update
