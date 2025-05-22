@@ -15,8 +15,8 @@ import uz.akbar.resto.repository.DishRepository;
 import uz.akbar.resto.repository.OrderItemRepository;
 import uz.akbar.resto.service.OrderItemService;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
 
 	private final OrderItemRepository repository;

@@ -12,17 +12,23 @@
  - [x] read all with *pagination*, *sort* & *filter*
  - [x] read by id
  - [x] update
- - [-] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
+ - [x] change statuses: *PENDING*, *PREPARING*, *COMPLETED*, *CANCELED*
  - [x] delete: `hard`
  - [x] delete: `soft`
 
 ## OrderItem
- - [ ] create
  - [ ] read all with *pagination*, *sort* & *filter*
  - [ ] read by id
  - [ ] update
  - [ ] change statuses: *DINE_IN*, *TO_GO*, *DELIVERY*
  - [ ] delete
+
+> [!NOTE] order-items endpoint recommendations
+>```bash
+>GET /api/orders/{id}/items           - List items for specific order
+>PUT /api/orders/{id}/items/{itemId}  - Update specific item
+>DELETE /api/orders/{id}/items/{itemId} - Remove specific item
+>```
 
 ## Attachment
  - [x] create
