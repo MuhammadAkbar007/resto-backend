@@ -3,6 +3,8 @@ package uz.akbar.resto.controller;
 import java.time.LocalDateTime;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,21 +22,23 @@ public class OrderItemController {
 
 	private final OrderItemService service;
 
+	@GetMapping
+	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<AppResponse> getAll(
 			@RequestParam(required = false) String searchTerm, // for general search
-			@RequestParam(required = false) Long number, // for filter
 			@RequestParam(required = false) Integer quantity, // for filter
 			@RequestParam(required = false) Double price, // for filter
 			@RequestParam(required = false) OrderType orderType, // for filter
 			@RequestParam(required = false) LocalDateTime fromDateTime, // for filter
 			@RequestParam(required = false) LocalDateTime toDateTime, // for filter
-			// TODO: add filter by dish & order
+			@RequestParam(required = false) String dishName, // for filter by Dish
+			@RequestParam(required = false) Long orderNumber, // for filter by Order
 			@RequestParam(defaultValue = "0") int page, // for pagination
 			@RequestParam(defaultValue = "10") int size, // for pagination
 			@RequestParam(defaultValue = "createdAt,desc") String[] sort) {
 
-		AppResponse response = service.getAll(searchTerm, number, quantity, price, orderType, fromDateTime, toDateTime,
-				page, size, sort);
+		AppResponse response = service.getAll(searchTerm, quantity, price, orderType, fromDateTime, toDateTime,
+				dishName, orderNumber, page, size, sort);
 
 		return ResponseEntity.ok(response);
 	}

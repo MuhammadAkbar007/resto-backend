@@ -1,0 +1,23 @@
+### Login as ADMIN
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+	"email": "fotismenos007@mail.ru",
+	"password": "root123"
+}
+
+### Login as MANAGER & CUSTOMER
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+	"email": "akbarjondev007@gmail.com",
+	"password": "root123"
+}
+
+##################################################################################################################################################################
+
+### get all order items with filter, sort & pagination
+GET http://localhost:8080/api/v1/order-items
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ4ODcxOTUwLCJleHAiOjE3NDg4NzU1NTB9.ygtks9u4OJmAcVdOvTDY6MRT1Bhv6KPKEB3Z7iARmPr3TvmdrgxYsS2uqUHGG1Qx-CVy37p2whb6uuHZoJKEQg
