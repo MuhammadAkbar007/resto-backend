@@ -21,7 +21,7 @@
  - [x] read by id
  - [x] update
  - [x] change orderType: *DINE_IN*, *TO_GO*, *DELIVERY*
- - [-] delete
+ - [x] delete
 
 ## Attachment
  - [x] create
