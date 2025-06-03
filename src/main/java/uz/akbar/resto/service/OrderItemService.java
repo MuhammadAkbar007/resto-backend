@@ -7,6 +7,7 @@ import java.util.UUID;
 import uz.akbar.resto.entity.Order;
 import uz.akbar.resto.entity.OrderItem;
 import uz.akbar.resto.entity.User;
+import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.OrderType;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.request.CreateOrderItemDto;
@@ -25,4 +26,6 @@ public interface OrderItemService {
 	AppResponse update(UUID id, UpdateOrderItemDto dto, User user);
 
 	AppResponse updateOrderType(UUID id, OrderType orderType, User user);
+
+	void delete(UUID id, DeleteType deleteType, User user);
 }

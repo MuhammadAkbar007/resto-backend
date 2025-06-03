@@ -27,6 +27,7 @@ import uz.akbar.resto.entity.Order;
 import uz.akbar.resto.entity.OrderItem;
 import uz.akbar.resto.entity.Role;
 import uz.akbar.resto.entity.User;
+import uz.akbar.resto.enums.DeleteType;
 import uz.akbar.resto.enums.OrderType;
 import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.exception.AppBadRequestException;
@@ -168,6 +169,35 @@ public class OrderItemServiceImpl implements OrderItemService {
 				.build();
 	}
 
+	@Override
+	@Transactional
+	public void delete(UUID id, DeleteType deleteType, User user) {
+		OrderItem orderItem = repository.findByIdAndVisibleTrue(id)
+				.orElseThrow(() -> new AppBadRequestException("Order item is not found with id: " + id));
+
+		UUID customerId = orderItem.getOrder().getCustomer().getId();
+
+		if (!hasAdminOrManagerOrEmployeeRole(user) && !user.getId().equals(customerId))
+			throw new AppBadRequestException("You don't have permission to change other's order items");
+
+		switch (deleteType) {
+			case SOFT:
+				orderItem.setVisible(false);
+				repository.save(orderItem);
+				break;
+
+			case HARD:
+				// repository.deleteById(id);
+				// repository.delete(orderItem);
+				repository.deleteByIdCustom(id);
+				// repository.flush();
+				break;
+
+			default:
+				throw new AppBadRequestException("Wrong delete type: " + deleteType);
+		}
+	}
+
 	private Specification<OrderItem> buildSpecification(String searchTerm, Integer quantity, Double price,
 			OrderType orderType, LocalDateTime fromDateTime, LocalDateTime toDateTime, String dishName,
 			Long orderNumber) {
@@ -190,7 +220,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 			}
 
 			if (quantity != null)
-				predicates.add(criteriaBuilder.equal(root.get("price"), price));
+				predicates.add(criteriaBuilder.equal(root.get("quantity"), quantity));
 
 			if (orderType != null)
 				predicates.add(criteriaBuilder.equal(root.get("orderType"), orderType));

@@ -28,3 +28,6 @@ select * from order_item;
 
 -- update users set visible = true 
 -- 	where id = '3e673bdd-a078-4bc7-a427-09963fed471c';
+
+-- update order_item set visible = true
+-- where id = '95e0c998-570a-48d8-bc35-befb97fdd39d'
