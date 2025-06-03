@@ -23,4 +23,6 @@ public interface OrderItemService {
 	AppResponse getById(UUID id);
 
 	AppResponse update(UUID id, UpdateOrderItemDto dto, User user);
+
+	AppResponse updateOrderType(UUID id, OrderType orderType, User user);
 }

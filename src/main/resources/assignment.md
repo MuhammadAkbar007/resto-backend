@@ -20,8 +20,8 @@
  - [x] read all with *pagination*, *sort* & *filter*
  - [x] read by id
  - [x] update
- - [-] change statuses: *DINE_IN*, *TO_GO*, *DELIVERY*
- - [ ] delete
+ - [x] change orderType: *DINE_IN*, *TO_GO*, *DELIVERY*
+ - [-] delete
 
 ## Attachment
  - [x] create

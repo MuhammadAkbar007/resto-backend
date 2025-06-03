@@ -147,6 +147,27 @@ public class OrderItemServiceImpl implements OrderItemService {
 				.build();
 	}
 
+	@Override
+	@Transactional
+	public AppResponse updateOrderType(UUID id, OrderType orderType, User user) {
+		OrderItem orderItem = repository.findByIdAndVisibleTrue(id)
+				.orElseThrow(() -> new AppBadRequestException("Order item is not found with id: " + id));
+
+		UUID customerId = orderItem.getOrder().getCustomer().getId();
+
+		if (!hasAdminOrManagerOrEmployeeRole(user) && !user.getId().equals(customerId))
+			throw new AppBadRequestException("You don't have permission to change other's order items");
+
+		orderItem.setOrderType(orderType);
+		OrderItem saved = repository.save(orderItem);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Order type successfully updated to " + orderType)
+				.data(mapper.toDetailsDto(saved))
+				.build();
+	}
+
 	private Specification<OrderItem> buildSpecification(String searchTerm, Integer quantity, Double price,
 			OrderType orderType, LocalDateTime fromDateTime, LocalDateTime toDateTime, String dishName,
 			Long orderNumber) {
@@ -252,4 +273,17 @@ public class OrderItemServiceImpl implements OrderItemService {
 				.anyMatch(role -> role.getRoleType() == RoleType.ROLE_ADMIN
 						|| role.getRoleType() == RoleType.ROLE_MANAGER);
 	}
+
+	private boolean hasAdminOrManagerOrEmployeeRole(User user) {
+		Set<Role> roles = user.getRoles();
+
+		if (roles == null)
+			return false;
+
+		return roles.stream()
+				.anyMatch(role -> role.getRoleType() == RoleType.ROLE_ADMIN
+						|| role.getRoleType() == RoleType.ROLE_MANAGER
+						|| role.getRoleType() == RoleType.ROLE_EMPLOYEE);
+	}
+
 }

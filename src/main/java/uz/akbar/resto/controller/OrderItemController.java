@@ -66,5 +66,15 @@ public class OrderItemController {
 		return ResponseEntity.ok(response);
 	}
 
-	// TODO: update status
+	@PutMapping("/order-type/{id}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<AppResponse> updateOrderType(@PathVariable UUID id,
+			@RequestParam(required = true) OrderType orderType,
+			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+		AppResponse response = service.updateOrderType(id, orderType, customUserDetails.getUser());
+		return ResponseEntity.ok(response);
+	}
+
+	// TODO: delete
 }
