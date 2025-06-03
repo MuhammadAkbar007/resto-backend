@@ -25,3 +25,15 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwuc
 ### get an order item by id
 GET http://localhost:8080/api/v1/order-items/95e0c998-570a-48d8-bc35-befb97fdd39d
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmb3Rpc21lbm9zMDA3QG1haWwucnUiLCJ1c2VySWQiOiJmODRmYjEwNy02Yzc5LTRjMjQtYWJkMS00MmQwMWZkNjczM2IiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XSwiaWF0IjoxNzQ4OTY1MjA5LCJleHAiOjE3NDg5Njg4MDl9.SqbmYsQnHIwsq1MjGY_Pdn25SC7LAE0agI51xqT2BLVAgJkPEZv8swNgsfQMZ0usAL0ESR5p4TOOmm63aBTh4g
+
+### update an order item by id -> ADMIN && MANAGER
+PUT http://localhost:8080/api/v1/order-items/95e0c998-570a-48d8-bc35-befb97fdd39d
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2JhcmpvbmRldjAwN0BnbWFpbC5jb20iLCJ1c2VySWQiOiIzZTY3M2JkZC1hMDc4LTRiYzctYTQyNy0wOTk2M2ZlZDQ3MWMiLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9DVVNUT01FUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9NQU5BR0VSIn1dLCJpYXQiOjE3NDg5Njc0OTAsImV4cCI6MTc0ODk3MTA5MH0.XQ5YU9HbNGFm-iKizcx_PhnCZhsct2Uq-9v3PdH5AYH5LSJvkg3o6bMetYv2XLHW3NW-wbLRTuzRlzgKwcCzOQ
+Content-Type: application/json
+
+{
+	"quantity": 3,
+	"price": 3.38,
+	"note": "Changing this hee-hee",
+	"dishId": 7
+}

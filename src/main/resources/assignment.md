@@ -19,8 +19,8 @@
 ## OrderItem
  - [x] read all with *pagination*, *sort* & *filter*
  - [x] read by id
- - [ ] update
- - [ ] change statuses: *DINE_IN*, *TO_GO*, *DELIVERY*
+ - [x] update
+ - [-] change statuses: *DINE_IN*, *TO_GO*, *DELIVERY*
  - [ ] delete
 
 ## Attachment

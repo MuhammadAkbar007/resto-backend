@@ -5,8 +5,11 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.enums.OrderType;
 import uz.akbar.resto.payload.AppResponse;
+import uz.akbar.resto.payload.request.UpdateOrderItemDto;
+import uz.akbar.resto.security.CustomUserDetails;
 import uz.akbar.resto.service.OrderItemService;
 import uz.akbar.resto.utils.Utils;
 
@@ -52,4 +57,14 @@ public class OrderItemController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PutMapping("/{id}")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<AppResponse> update(@PathVariable UUID id, @RequestBody UpdateOrderItemDto dto,
+			@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+		AppResponse response = service.update(id, dto, customUserDetails.getUser());
+		return ResponseEntity.ok(response);
+	}
+
+	// TODO: update status
 }

@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -24,12 +25,16 @@ import lombok.RequiredArgsConstructor;
 import uz.akbar.resto.entity.Dish;
 import uz.akbar.resto.entity.Order;
 import uz.akbar.resto.entity.OrderItem;
+import uz.akbar.resto.entity.Role;
+import uz.akbar.resto.entity.User;
 import uz.akbar.resto.enums.OrderType;
+import uz.akbar.resto.enums.RoleType;
 import uz.akbar.resto.exception.AppBadRequestException;
 import uz.akbar.resto.mapper.OrderItemMapper;
 import uz.akbar.resto.payload.AppResponse;
 import uz.akbar.resto.payload.PaginationData;
 import uz.akbar.resto.payload.request.CreateOrderItemDto;
+import uz.akbar.resto.payload.request.UpdateOrderItemDto;
 import uz.akbar.resto.payload.response.OrderItemDetailsDto;
 import uz.akbar.resto.repository.DishRepository;
 import uz.akbar.resto.repository.OrderItemRepository;
@@ -93,6 +98,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public AppResponse getById(UUID id) {
 		OrderItem orderItem = repository.findByIdAndVisibleTrue(id)
 				.orElseThrow(() -> new AppBadRequestException("Order item not found with id: " + id));
@@ -101,6 +107,43 @@ public class OrderItemServiceImpl implements OrderItemService {
 				.success(true)
 				.message("Order item successfully retrieved")
 				.data(mapper.toDetailsDto(orderItem))
+				.build();
+	}
+
+	@Override
+	@Transactional
+	public AppResponse update(UUID id, UpdateOrderItemDto dto, User user) {
+		OrderItem orderItem = repository.findByIdAndVisibleTrue(id)
+				.orElseThrow(() -> new AppBadRequestException("Order item is not found with id: " + id));
+
+		UUID customerId = orderItem.getOrder().getCustomer().getId();
+
+		if (!hasAdminOrManagerRole(user) && !user.getId().equals(customerId))
+			throw new AppBadRequestException("You don't have permission to change other's order items");
+
+		if (!dto.getDishId().equals(null)) {
+			Long dishId = dto.getDishId();
+			Dish dish = dishRepository.findByIdAndVisibleTrue(dishId)
+					.orElseThrow(() -> new AppBadRequestException("Dish is not found with id: " + dishId));
+
+			orderItem.setDish(dish);
+		}
+
+		if (!dto.getQuantity().equals(null) && dto.getQuantity() > 0)
+			orderItem.setQuantity(dto.getQuantity());
+
+		if (!dto.getPrice().equals(null) && dto.getPrice() > 0)
+			orderItem.setPrice(dto.getPrice());
+
+		if (!dto.getNote().equals(null))
+			orderItem.setNote(dto.getNote());
+
+		OrderItem saved = repository.save(orderItem);
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Order item successfully updated")
+				.data(mapper.toDetailsDto(saved))
 				.build();
 	}
 
@@ -199,4 +242,14 @@ public class OrderItemServiceImpl implements OrderItemService {
 		return validProperties.contains(property);
 	}
 
+	private boolean hasAdminOrManagerRole(User user) {
+		Set<Role> roles = user.getRoles();
+
+		if (roles == null)
+			return false;
+
+		return roles.stream()
+				.anyMatch(role -> role.getRoleType() == RoleType.ROLE_ADMIN
+						|| role.getRoleType() == RoleType.ROLE_MANAGER);
+	}
 }
