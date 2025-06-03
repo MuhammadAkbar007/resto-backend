@@ -2,6 +2,7 @@ package uz.akbar.resto.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import uz.akbar.resto.entity.Order;
 import uz.akbar.resto.entity.OrderItem;
@@ -16,5 +17,7 @@ public interface OrderItemService {
 	AppResponse getAll(String searchTerm, Integer quantity, Double price, OrderType orderType,
 			LocalDateTime fromDateTime, LocalDateTime toDateTime, String dishName, Long orderNumber, int page, int size,
 			String[] sort);
+
+	AppResponse getById(UUID id);
 
 }

@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -88,6 +89,18 @@ public class OrderItemServiceImpl implements OrderItemService {
 				.success(true)
 				.message("Order items retrieved successfully")
 				.data(PaginationData.of(orderItemsDetailsDtoList, orderItemsPage))
+				.build();
+	}
+
+	@Override
+	public AppResponse getById(UUID id) {
+		OrderItem orderItem = repository.findByIdAndVisibleTrue(id)
+				.orElseThrow(() -> new AppBadRequestException("Order item not found with id: " + id));
+
+		return AppResponse.builder()
+				.success(true)
+				.message("Order item successfully retrieved")
+				.data(mapper.toDetailsDto(orderItem))
 				.build();
 	}
 
