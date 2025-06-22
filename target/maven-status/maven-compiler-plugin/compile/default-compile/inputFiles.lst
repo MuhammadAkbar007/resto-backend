@@ -1,6 +1,7 @@
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/RestoBackendApplication.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/config/DataInitializer.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/config/GlobalExceptionHandler.java
+/home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/config/SwaggerConfig.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/controller/AdminController.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/controller/AttachmentController.java
 /home/akbar/akbarDev/petProjects/restoApp/restoBackend/src/main/java/uz/akbar/resto/controller/AuthController.java

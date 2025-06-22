@@ -15,8 +15,8 @@ import uz.akbar.resto.payload.response.OrderDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-22T18:39:26+0500",
-    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.42.0.z20250331-1358, environment: Java 23.0.1 (Oracle Corporation)"
+    date = "2025-06-22T23:07:38+0500",
+    comments = "version: 1.6.3, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
@@ -32,11 +32,11 @@ public class OrderMapperImpl implements OrderMapper {
 
         OrderDto.OrderDtoBuilder orderDto = OrderDto.builder();
 
-        orderDto.discount( order.getDiscount() );
         orderDto.id( order.getId() );
         orderDto.number( order.getNumber() );
-        orderDto.orderStatus( order.getOrderStatus() );
+        orderDto.discount( order.getDiscount() );
         orderDto.totalPrice( order.getTotalPrice() );
+        orderDto.orderStatus( order.getOrderStatus() );
 
         return orderDto.build();
     }
@@ -51,12 +51,12 @@ public class OrderMapperImpl implements OrderMapper {
 
         orderDetailsDto.setCustomerId( orderCustomerId( order ) );
         orderDetailsDto.setOrderItemDtos( orderItemListToCreateOrderItemDtoList( order.getOrderItems() ) );
-        orderDetailsDto.setCreatedAt( order.getCreatedAt() );
-        orderDetailsDto.setDiscount( order.getDiscount() );
         orderDetailsDto.setId( order.getId() );
         orderDetailsDto.setNumber( order.getNumber() );
-        orderDetailsDto.setOrderStatus( order.getOrderStatus() );
+        orderDetailsDto.setDiscount( order.getDiscount() );
         orderDetailsDto.setTotalPrice( order.getTotalPrice() );
+        orderDetailsDto.setOrderStatus( order.getOrderStatus() );
+        orderDetailsDto.setCreatedAt( order.getCreatedAt() );
         orderDetailsDto.setVisible( order.getVisible() );
 
         return orderDetailsDto;
