@@ -1,7 +1,6 @@
 # Functionality
 ## System
- - [ ] change `RuntimeException` handler in *GlobalExceptionHandler*
- - [-] write *README.md*
+ - [x] swagger implemented
 
 ## Dish
  - [x] create
