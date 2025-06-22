@@ -39,6 +39,9 @@ public class SecurityConfig {
 
 	public static final String[] AUTH_WHITELIST = {
 			Utils.BASE_URL + "/auth/*",
+			"/v3/api-docs/**",
+			"/swagger-ui/**",
+			"/swagger-ui.html",
 	};
 
 	@Bean

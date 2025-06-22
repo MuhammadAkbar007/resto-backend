@@ -54,6 +54,7 @@ uz/akbar/resto/enums/DishCategory.class
 uz/akbar/resto/payload/response/RoleDto.class
 uz/akbar/resto/payload/AppResponse$AppResponseBuilder.class
 uz/akbar/resto/controller/AuthController.class
+uz/akbar/resto/service/impl/OrderItemServiceImpl$1.class
 uz/akbar/resto/payload/response/RoleDto$RoleDtoBuilder.class
 uz/akbar/resto/enums/OrderType.class
 uz/akbar/resto/payload/response/UserDto$UserDtoBuilder.class

@@ -1,4 +1,9 @@
 # Functionality
+## System
+ - [-] implement *swagger*
+ - [ ] change `RuntimeException` handler in *GlobalExceptionHandler*
+ - [ ] write *README.md*
+
 ## Dish
  - [x] create
  - [x] read all with *pagination*, *sort* & *filter*
@@ -21,7 +26,7 @@
  - [x] read by id
  - [x] update
  - [x] change orderType: *DINE_IN*, *TO_GO*, *DELIVERY*
- - [-] delete
+ - [x] delete
 
 ## Attachment
  - [x] create
@@ -43,12 +48,6 @@
  - [x] admin revoke role *admin, manager, employee etc*
  - [x] admin changes user status *active, block, deleted etc*
  - [x] user changes his/her profile picture
-
-## System
- - [ ] change `RuntimeException` handler in *GlobalExceptionHandler*
-
-## System Functionality
- - [x] *PaginationData* is implemented
 
 ## OTP for email verification
  - [x] *Security Enhancements*
