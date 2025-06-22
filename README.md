@@ -1,31 +1,31 @@
-# 🍽️RestoApp Backend
+# 🍽️ RestoApp Backend
 
 ## Description
-🍴 A full-featured RESTful backend for a restaurant management system built with **Spring Boot 3** 🌱, using **JWT security** 🛡, **role-based access control** ☸️,
+🍴 A full-featured RESTful backend for a restaurant management system built with **Spring Boot 3** 🌱, using **JWT security** 🚔, **role-based access control** ☸️,
 and **Swagger/OpenAPI** 📄 for API documentation. This project includes user registration with email 📧 OTP verification, scheduling for auto-cleanup 🧹,
-dish and order management, and soft/hard delete 🗑functionality.
+dish and order management, and soft/hard delete ❌ functionality.
 
 ---
 
 ## 🚀 Features
 
-### 🖥️System
+### 🖥️ System
  - **Data Initialization:**
     * 🎄 Seeder to pre-populate the database with default roles (`admin`, `customer`, `manager`, `employee`), and an admin user.
 
 ### 👥 **User Management**
 - Registration with **two-step email verification (OTP)** 📧
-- JWT-based **log in**, **log out**, and **refresh token** 🛡
+- JWT-based **log in**, **log out**, and **refresh token** 🚔
 - Admin abilities ☸️:
   - Assign/revoke roles (`admin`, `manager`, `employee`)
   - Change user status (`active`, `block`, `deleted`)
   - Paginated and filtered user listing
-- Users can:
+- Users can 🙆‍♂️:
   - Update their profile
   - Change profile picture
 
 ### 🚩 **OTP System**
-- Secure OTP verification for email activation 🛡
+- Secure OTP verification for email activation 🚔
 - Rate limiting & attempt count 🛑
 - Auto-cleanup of expired OTPs 🧹
 
@@ -122,7 +122,7 @@ dish and order management, and soft/hard delete 🗑functionality.
 
 ---
 
-## 🛡️Security
+## 🛡️ Security
 
 - JWT authentication with stateless sessions
 - Role-based access control with method-level security
@@ -134,6 +134,7 @@ dish and order management, and soft/hard delete 🗑functionality.
 
 ## 🎨 Based on open-source figma:
 Figma [link](https://www.figma.com/file/0rsOUjLNTiZA5LTv6CfGzU/Food-POS-Dark---Tablet-Device-(Community)?node-id=0%3A1)
+[pdf](/src/resources/restoFigma.pdf)
 
-## ✍️Author
+## ✍️ Author
 Created by [Akbar](https://github.com/MuhammadAkbar007).
