@@ -134,7 +134,6 @@ dish and order management, and soft/hard delete ❌ functionality.
 
 ## 🎨 Based on open-source figma:
 Figma [link](https://www.figma.com/file/0rsOUjLNTiZA5LTv6CfGzU/Food-POS-Dark---Tablet-Device-(Community)?node-id=0%3A1)
-[pdf](/src/resources/restoFigma.pdf)
 
 ## ✍️ Author
 Created by [Akbar](https://github.com/MuhammadAkbar007).
