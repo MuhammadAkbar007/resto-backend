@@ -4,7 +4,7 @@
 🍴 A full-featured RESTful backend for a restaurant management system built with **Spring Boot 3** 🌱, using **JWT security** 🚔, **role-based access control** ☸️,
 and **Swagger/OpenAPI** 📄 for API documentation. This project includes user registration with email 📧 OTP verification, scheduling for auto-cleanup 🧹,
 dish and order management, and soft/hard delete ❌ functionality.
-Inside [http folder 📁](src/main/resources/http), there are examples of API endpoints in http format to try out.
+Inside [http folder 📁](src/main/resources/http), there are examples of API endpoints in http format to try out 🧪.
 
 ---
 
