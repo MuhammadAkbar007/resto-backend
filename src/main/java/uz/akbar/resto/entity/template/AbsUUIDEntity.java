@@ -1,19 +1,20 @@
 package uz.akbar.resto.entity.template;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
+import java.time.Instant;
+import java.util.UUID;
 
 /** AbsUUIDEntity */
 @Getter
@@ -25,13 +26,13 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(of = "id")
 public abstract class AbsUUIDEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-	@Column(nullable = false, updatable = false)
-	private Instant createdAt = Instant.now();
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt = Instant.now();
 
-	@Column(nullable = false)
-	private Boolean visible = true;
+    @Column(nullable = false)
+    private Boolean visible = true;
 }
