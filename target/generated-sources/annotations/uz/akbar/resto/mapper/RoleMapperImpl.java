@@ -7,8 +7,8 @@ import uz.akbar.resto.payload.response.RoleDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-20T09:45:13+0500",
-    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.42.50.v20250731-0946, environment: Java 24.0.2 (Oracle Corporation)"
+    date = "2026-01-10T16:17:59+0500",
+    comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 25.0.1 (Oracle Corporation)"
 )
 @Component
 public class RoleMapperImpl implements RoleMapper {
